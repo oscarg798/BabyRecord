@@ -15,6 +15,8 @@ class RecordViewHolder(mItemView: View) : RecyclerView.ViewHolder(mItemView) {
     val mTVStartTime = mItemView.findViewById<TextView>(R.id.mTVStartTime)
     val mTVEndTime = mItemView.findViewById<TextView>(R.id.mTVEndTime)
     val mTVType = mItemView.findViewById<TextView>(R.id.mTVType)
-    val mIVEndRecord = mItemView.findViewById<ImageView>(R.id.mIVEndRecord)
-    val mIVDeleteRecord = mItemView.findViewById<ImageView>(R.id.mIVDeleteRecord)
+    val mTVDeleteRecord = mItemView.findViewById<TextView>(R.id.mTVDeleteRecord)
+    val mTVSetEndTimeToRecord = mItemView.findViewById<TextView>(R.id.mTVSetEndTimeToRecord)
+    val mTVRecordDuration = mItemView.findViewById<TextView>(R.id.mTVRecordDuration)
+    val mTVTimeFromLastRecord = mItemView.findViewById<TextView>(R.id.mTVTimeFromLastRecord)
 }

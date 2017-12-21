@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">BabyRecord</string>
+    <string name="delete_label">Delete</string>
+    <string name="set_end_time_label">Set end time</string>
 </resources>

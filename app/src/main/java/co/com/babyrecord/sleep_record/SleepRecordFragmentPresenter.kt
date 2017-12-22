@@ -1,6 +1,7 @@
-package co.com.babyrecord.dashboard
+package co.com.babyrecord.sleep_record
 
 import android.content.DialogInterface
+import android.content.Intent
 import co.com.babyrecord.BaseApplication
 import co.com.babyrecord.R
 import co.com.babyrecord.SLEEP_TYPE
@@ -137,5 +138,9 @@ class SleepRecordFragmentPresenter : ISleepRecordFragmentPresenter {
 
                 })
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

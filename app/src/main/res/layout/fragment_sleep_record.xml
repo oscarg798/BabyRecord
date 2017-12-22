@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context="co.com.babyrecord.dashboard.SleepRecordFragment">
+    tools:context="co.com.babyrecord.sleep_record.SleepRecordFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
             android:id="@+id/mFABCreateSpleepRecord"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_sleep"
+            android:src="@drawable/ic_add"
             android:layout_margin="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

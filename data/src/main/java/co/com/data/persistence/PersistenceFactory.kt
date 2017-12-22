@@ -12,7 +12,9 @@ class PersistenceFactory private constructor() {
     private lateinit var database: AppDatabase
 
     fun initDatabase(context: Context) {
-        database = Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME).build()
+        database = Room.databaseBuilder(context,
+                AppDatabase::class.java, DATABASE_NAME)
+                .addMigrations(MIGRATION_1_2, MIGRATION_2_3).build()
 
     }
 

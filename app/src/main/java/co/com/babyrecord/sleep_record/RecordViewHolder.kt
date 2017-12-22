@@ -1,8 +1,7 @@
-package co.com.babyrecord.dashboard
+package co.com.babyrecord.sleep_record
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import co.com.babyrecord.R
 

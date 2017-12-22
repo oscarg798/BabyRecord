@@ -1,4 +1,4 @@
-package co.com.babyrecord.dashboard
+package co.com.babyrecord.sleep_record
 
 import co.com.babyrecord.IBasePresenter
 import co.com.core.models.Record

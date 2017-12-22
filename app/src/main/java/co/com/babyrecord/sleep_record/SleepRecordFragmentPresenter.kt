@@ -1,6 +1,8 @@
 package co.com.babyrecord.dashboard
 
 import android.content.DialogInterface
+import co.com.babyrecord.BaseApplication
+import co.com.babyrecord.R
 import co.com.babyrecord.SLEEP_TYPE
 import co.com.core.models.Record
 import co.com.core.use_cases.record.CreateRecordUseCase
@@ -15,13 +17,13 @@ import java.util.*
 /**
  * Created by oscarg798 on 12/20/17.
  */
-class DashboardActivityPresenter : IDashbaordActivityPresenter {
+class SleepRecordFragmentPresenter : ISleepRecordFragmentPresenter {
 
-    private var mView: IDashboardView? = null
+    private var mView: ISleepRecordFragmentView? = null
 
     private var mRecords: List<Record>? = null
 
-    override fun bind(view: IDashboardView) {
+    override fun bind(view: ISleepRecordFragmentView) {
         mView = view
         mView?.initComponents()
         if (mRecords === null) {
@@ -111,7 +113,8 @@ class DashboardActivityPresenter : IDashbaordActivityPresenter {
     }
 
     override fun deleteRecord(record: Record) {
-        mView?.showConfirmationAlertDialog("Are you sure you want to delete this record?",
+
+        mView?.showConfirmationAlertDialog(BaseApplication.instance.getString(R.string.delete_record_confirmation_message),
                 DialogInterface.OnClickListener { _, _ ->
                     mView?.showProgressBar()
                     DeleteRecordUseCase(Schedulers.io(),

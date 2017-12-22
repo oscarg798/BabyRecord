@@ -1,6 +1,6 @@
 package co.com.babyrecord.sleep_record
 
-import android.support.v7.widget.RecyclerView
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +8,8 @@ import android.widget.TextView
 import co.com.babyrecord.R
 import co.com.babyrecord.Utils
 import co.com.core.models.Record
+import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
+import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -15,39 +17,46 @@ import kotlin.collections.ArrayList
 /**
  * Created by oscarg798 on 12/20/17.
  */
-class RecordsRecyclerViewAdapter(private val mRecords: ArrayList<Record>,
+class RecordsRecyclerViewAdapter(val mRecords: ArrayList<SleepRecordsByDate>,
                                  private val mCallbacks: IRecordCallbacks) :
-        RecyclerView.Adapter<RecordViewHolder>() {
+        ExpandableRecyclerViewAdapter<SleepRecordHeaderViewholder, RecordViewHolder>(mRecords) {
+
+    private val mCalendar = Calendar.getInstance()
 
     private val mSimpleTimeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
     private val mSimpleDateFormat = SimpleDateFormat("d MMM yyyy", Locale.getDefault())
 
-    override fun onBindViewHolder(holder: RecordViewHolder?, position: Int) {
+    override fun onCreateChildViewHolder(parent: ViewGroup, viewType: Int): RecordViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.record_view_holder, parent, false)
+        return RecordViewHolder(view)
+    }
+
+    override fun onBindChildViewHolder(holder: RecordViewHolder?, flatPosition: Int, group: ExpandableGroup<*>?, childIndex: Int) {
         holder?.let {
             holder.mTVStartTime?.
                     setText(Utils.instance.
-                            boldTextPrefix("Start Time: ${getTimeFromDate(mRecords[position]
+                            boldTextPrefix("Start Time: ${getTimeFromDate((group as SleepRecordsByDate).getItems().get(childIndex)
                                     .startTime)}"), TextView.BufferType.SPANNABLE)
 
             holder.mTVEndTime?.setText(Utils.instance.
-                    boldTextPrefix(if (mRecords[position].endTime !== null)
-                        "End Time: ${getTimeFromDate(mRecords[position].endTime!!)}"
+                    boldTextPrefix(if ((group as SleepRecordsByDate).getItems().get(childIndex).endTime !== null)
+                        "End Time: ${getTimeFromDate((group as SleepRecordsByDate).getItems().get(childIndex).endTime!!)}"
                     else "End Time:"), TextView.BufferType.SPANNABLE)
 
 
             holder.mTVDate?.
                     setText(Utils.instance.
-                            boldTextPrefix("Date: ${getDate(mRecords[position].startTime)}"),
+                            boldTextPrefix("Date: ${getDate((group as SleepRecordsByDate).getItems().get(childIndex).startTime)}"),
                             TextView.BufferType.SPANNABLE)
 
             holder.mTVType?.
                     setText(Utils.instance.
-                            boldTextPrefix("Type: ${mRecords[position].type}"),
+                            boldTextPrefix("Type: ${(group as SleepRecordsByDate).getItems().get(childIndex).type}"),
                             TextView.BufferType.SPANNABLE)
 
-            val duration = Utils.instance.calculateRecordDuration(mRecords[position].startTime,
-                    mRecords[position].endTime)
+            val duration = Utils.instance.calculateRecordDuration((group as SleepRecordsByDate).getItems().get(childIndex).startTime,
+                    group.items[childIndex].endTime)
             if (duration !== null) {
                 holder.mTVRecordDuration?.
                         setText(Utils.instance.
@@ -59,9 +68,9 @@ class RecordsRecyclerViewAdapter(private val mRecords: ArrayList<Record>,
             }
 
 
-            if (position - 1 >= 0) {
+            if (childIndex - 1 >= 0) {
                 val sleepDuration = Utils.instance.
-                        calculateRecordDuration(mRecords[position - 1].endTime, mRecords[position].startTime)
+                        calculateRecordDuration(group.items[childIndex - 1].endTime, group.items[childIndex].startTime)
                 if (sleepDuration !== null) {
                     holder.mTVTimeFromLastRecord?.
                             setText(Utils.instance.
@@ -77,20 +86,29 @@ class RecordsRecyclerViewAdapter(private val mRecords: ArrayList<Record>,
             }
 
             holder.mTVSetEndTimeToRecord?.setOnClickListener {
-                mCallbacks.finishRecord(mRecords[position])
+                mCallbacks.finishRecord(group.items[childIndex])
             }
 
             holder.mTVDeleteRecord?.setOnClickListener {
-                mCallbacks.deleteRecord(mRecords[position])
+                mCallbacks.deleteRecord(group.items[childIndex])
             }
 
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecordViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.record_view_holder, parent, false)
-        return RecordViewHolder(view)
+    override fun onCreateGroupViewHolder(parent: ViewGroup, viewType: Int): SleepRecordHeaderViewholder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.sleep_record_header, parent, false)
+        return SleepRecordHeaderViewholder(view)
     }
+
+    override fun onBindGroupViewHolder(holder: SleepRecordHeaderViewholder?, flatPosition: Int, group: ExpandableGroup<*>?) {
+        holder?.let {
+            group?.let {
+                holder.mTVTitle.text = group.title
+            }
+        }
+    }
+
 
     private fun getTimeFromDate(time: Long): String {
         return mSimpleTimeFormat.format(Date(time))
@@ -100,37 +118,66 @@ class RecordsRecyclerViewAdapter(private val mRecords: ArrayList<Record>,
         return mSimpleDateFormat.format(Date(date))
     }
 
-    override fun getItemCount(): Int = mRecords.size
 
-    fun addRecords(records: List<Record>) {
+    fun addRecord(record: Record) {
+        mCalendar.timeInMillis = record.startTime
+        var hasFound = false
+        for (sleepRecordByDate in mRecords) {
+            if (sleepRecordByDate.mYear == mCalendar.get(Calendar.YEAR)
+                    && sleepRecordByDate.mDayOfTheYear == mCalendar.get(Calendar.DAY_OF_YEAR)) {
+                sleepRecordByDate.items.add(record)
+                hasFound = true
+                break
+            }
+        }
+        if (!hasFound) {
+            mRecords.add(SleepRecordsByDate(mSimpleDateFormat.format(Date(record.startTime)),
+                    arrayListOf(record), mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.DAY_OF_YEAR)))
+        }
+
+        sort()
+
+    }
+
+    fun addRecords(records: ArrayList<SleepRecordsByDate>) {
         mRecords.addAll(records)
         sort()
-        notifyDataSetChanged()
     }
 
-    fun updateRecor(record: Record) {
-        mRecords.filter {
-            it.uuid == record.uuid
-        }.forEach {
-            mRecords.remove(it)
-            mRecords.add(record)
+    fun updateRecord(record: Record) {
+        loop@ for (sleepRecordByDate in mRecords) {
+            for (sleepRecord in sleepRecordByDate.items) {
+                if (sleepRecord.uuid == record.uuid) {
+                    sleepRecordByDate.items.remove(sleepRecord)
+                    sleepRecordByDate.items.add(record)
+                    break@loop
+                }
+            }
         }
         sort()
-        notifyDataSetChanged()
     }
 
-    fun sort() {
-        mRecords.sortByDescending { it.startTime }
-        mRecords.reverse()
+    private fun sort() {
+        mRecords.sortByDescending { it.title }
+        mRecords.forEach {
+            it.items.sortBy { it.startTime }
+        }
+        notifyDataSetChanged()
+
     }
 
     fun removeRecord(recordUuid: String) {
-        mRecords.filter { it.uuid == recordUuid }
-                .forEach {
-                    mRecords.remove(it)
-
+        loop@ for (sleepRecordByDate in mRecords) {
+            for (sleepRecord in sleepRecordByDate.items) {
+                if (sleepRecord.uuid == recordUuid) {
+                    sleepRecordByDate.items.remove(sleepRecord)
+                    if (sleepRecordByDate.items.size == 0) {
+                        mRecords.remove(sleepRecordByDate)
+                    }
+                    break@loop
                 }
+            }
+        }
         sort()
-        notifyDataSetChanged()
     }
 }

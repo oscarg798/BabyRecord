@@ -9,7 +9,7 @@ import co.com.core.models.Record
  */
 interface ISleepRecordFragmentView : IBaseView {
 
-    fun showRecords(records: List<Record>)
+    fun showRecords(records: ArrayList<SleepRecordsByDate>)
 
     fun updateRecord(record: Record)
 

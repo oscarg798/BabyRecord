@@ -10,10 +10,13 @@ import co.com.core.use_cases.record.CreateRecordUseCase
 import co.com.core.use_cases.record.DeleteRecordUseCase
 import co.com.core.use_cases.record.GetRecordsUseCase
 import co.com.core.use_cases.record.UpdateRecordUseCase
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Created by oscarg798 on 12/20/17.
@@ -23,6 +26,10 @@ class SleepRecordFragmentPresenter : ISleepRecordFragmentPresenter {
     private var mView: ISleepRecordFragmentView? = null
 
     private var mRecords: List<Record>? = null
+
+    private val mCalendar = Calendar.getInstance()
+
+    private val mSimpleDateFormat = SimpleDateFormat("d MMM yyyy", Locale.getDefault())
 
     override fun bind(view: ISleepRecordFragmentView) {
         mView = view
@@ -61,8 +68,52 @@ class SleepRecordFragmentPresenter : ISleepRecordFragmentPresenter {
 
     private fun deliverRecords() {
         mRecords?.let {
-            mView?.showRecords(mRecords!!)
+            mView?.showProgressBar()
+            Single.create<ArrayList<SleepRecordsByDate>> { emitter ->
+                val calendarMap = HashMap<Pair<Int, Int>, ArrayList<Record>>()
+                mRecords!!.forEach {
+                    mCalendar.timeInMillis = it.startTime
+                    val recordsByDate = if (calendarMap.containsKey(Pair(mCalendar.get(Calendar.YEAR), mCalendar
+                            .get(Calendar.DAY_OF_YEAR)))) {
+                        calendarMap[Pair(mCalendar.get(Calendar.YEAR), mCalendar
+                                .get(Calendar.DAY_OF_YEAR))]
+                    } else {
+                        ArrayList()
+                    }
+
+                    recordsByDate!!.add(it)
+                    calendarMap.put(Pair(mCalendar.get(Calendar.YEAR), mCalendar
+                            .get(Calendar.DAY_OF_YEAR)), recordsByDate)
+                }
+
+                val sleepRecordsByDate = ArrayList<SleepRecordsByDate>()
+
+                calendarMap.mapTo(sleepRecordsByDate, {
+                    mCalendar.timeInMillis = it.value[0].startTime
+                    SleepRecordsByDate(mSimpleDateFormat.format(it.value[0].startTime), it.value,
+                            mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.DAY_OF_YEAR))
+                })
+                emitter.onSuccess(sleepRecordsByDate)
+            }.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(object : DisposableSingleObserver<ArrayList<SleepRecordsByDate>>() {
+                        override fun onError(e: Throwable) {
+                            e.printStackTrace()
+                            mView?.hideProgressBar()
+                            this.dispose()
+
+                        }
+
+                        override fun onSuccess(t: ArrayList<SleepRecordsByDate>) {
+                            mView?.showRecords(t)
+                            mView?.hideProgressBar()
+                            this.dispose()
+                        }
+
+                    })
         }
+
+
     }
 
     override fun creteRecord(viewID: Int) {

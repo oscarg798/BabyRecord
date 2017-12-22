@@ -30,8 +30,6 @@ class SleepRecordFragment : Fragment(), ISleepRecordFragmentView {
         activity?.let {
             mSRLDashboard?.isEnabled = false
             mRVRecords?.setHasFixedSize(false)
-            mRVRecords?.layoutManager = LinearLayoutManager(activity)
-            mRVRecords?.adapter = RecordsRecyclerViewAdapter(ArrayList(), mPresenter)
             mFABCreateSpleepRecord?.setOnClickListener { v ->
                 mPresenter.creteRecord(v.id)
             }
@@ -46,27 +44,34 @@ class SleepRecordFragment : Fragment(), ISleepRecordFragmentView {
         mSRLDashboard?.isRefreshing = false
     }
 
-    override fun showRecords(records: List<Record>) {
-        mRVRecords?.adapter?.let {
-            (mRVRecords.adapter as RecordsRecyclerViewAdapter).addRecords(records)
+    override fun showRecords(records: ArrayList<SleepRecordsByDate>) {
+        mRVRecords?.let {
+            mRVRecords?.layoutManager = LinearLayoutManager(activity)
+            mRVRecords?.adapter = RecordsRecyclerViewAdapter(records, mPresenter)
+            (mRVRecords?.adapter as? RecordsRecyclerViewAdapter)?.onGroupClick(0)
         }
+
     }
 
     override fun updateRecord(record: Record) {
         mRVRecords?.adapter?.let {
-            (mRVRecords.adapter as RecordsRecyclerViewAdapter).updateRecor(record)
+            (mRVRecords.adapter as RecordsRecyclerViewAdapter).updateRecord(record)
+            showRecords((mRVRecords.adapter as RecordsRecyclerViewAdapter).mRecords)
         }
     }
 
     override fun addRecord(record: Record) {
         mRVRecords?.adapter?.let {
-            (mRVRecords.adapter as RecordsRecyclerViewAdapter).addRecords(listOf(record))
+            (mRVRecords.adapter as RecordsRecyclerViewAdapter).addRecord(record)
+            showRecords((mRVRecords.adapter as RecordsRecyclerViewAdapter).mRecords)
+
         }
     }
 
     override fun removeRecord(recordUuid: String) {
         mRVRecords?.adapter?.let {
             (mRVRecords.adapter as RecordsRecyclerViewAdapter).removeRecord(recordUuid)
+            showRecords((mRVRecords.adapter as RecordsRecyclerViewAdapter).mRecords)
         }
     }
 

@@ -31,6 +31,7 @@ dependencies {
     implementation "com.android.support:support-v4:$googleLibrariesVersion"
     implementation "com.android.support:support-v4:$googleLibrariesVersion"
     implementation "com.android.support:appcompat-v7:$googleLibrariesVersion"
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -40,7 +41,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     implementation project(':core')
+
     implementation 'com.android.support:cardview-v7:27.0.2'
     implementation 'com.wdullaer:materialdatetimepicker:3.4.1'
+    implementation 'com.thoughtbot:expandablerecyclerview:1.3'
+
 
 }

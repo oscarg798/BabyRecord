@@ -2,8 +2,10 @@ package co.com.babyrecord.size_record
 
 
 import android.app.Fragment
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +15,8 @@ import co.com.babyrecord.CREAtE_SIZE_RECORD_REQUEST_CODE
 import co.com.babyrecord.R
 import co.com.babyrecord.add_size_record.AddSizeRecordActivity
 import co.com.core.models.SizeRecord
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_add_size_record.*
 import kotlinx.android.synthetic.main.fragment_size_record.*
 
@@ -39,6 +43,7 @@ class SizeRecordFragment : Fragment(), ISizeRecordFragmentView {
     override fun initComponents() {
         mSRLAddSizeRecord?.isEnabled = false
         mRVSizeRecords?.setHasFixedSize(false)
+
         mFABCreateSizeRecord?.setOnClickListener {
             activity?.let {
                 startActivityForResult(Intent(activity, AddSizeRecordActivity::class.java),
@@ -50,11 +55,35 @@ class SizeRecordFragment : Fragment(), ISizeRecordFragmentView {
         activity?.let {
             mRVSizeRecords?.layoutManager = LinearLayoutManager(activity)
             mRVSizeRecords?.adapter = SizeRecordAdapter(ArrayList(), mPresenter)
+            mRVSizeRecords?.adapter?.let {
+                (mRVSizeRecords.adapter as SizeRecordAdapter).mSizeObservable
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(mPresenter.getSizeObservable())
+            }
+
         }
 
     }
 
+    override fun showConfirmationAlertDialog(message: String, okButtonCallback: DialogInterface.OnClickListener) {
+        activity?.let {
+            val builder = AlertDialog.Builder(activity)
+            builder.setMessage(message)
+            builder.setPositiveButton(getString(R.string.accept_label), okButtonCallback)
+            builder.setNegativeButton(getString(R.string.cancel_label)) { _, _ -> }
+            builder.create().show()
+        }
 
+    }
+
+    override fun showNoSizeRecordMessage() {
+        mTVNoSizeRecords?.visibility = View.VISIBLE
+    }
+
+    override fun hideSizeRecordMessage() {
+        mTVNoSizeRecords?.visibility = View.GONE
+    }
 
     override fun showProgressBar() {
         mSRLAddSizeRecord?.isRefreshing = true

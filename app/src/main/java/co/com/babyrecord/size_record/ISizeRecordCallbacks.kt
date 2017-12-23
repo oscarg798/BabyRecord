@@ -8,4 +8,5 @@ import co.com.core.models.SizeRecord
 interface ISizeRecordCallbacks {
 
     fun deleteSizeRecord(sizeRecord: SizeRecord)
+
 }

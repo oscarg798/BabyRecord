@@ -41,6 +41,17 @@ class DashboardActivity : AppCompatActivity(), IDashboardActivityView {
         }
     }
 
+    override fun onBackPressed() {
+        fragmentManager?.let {
+            if (fragmentManager.backStackEntryCount == 1) {
+                finishAffinity()
+                return
+            }
+        }
+        super.onBackPressed()
+
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         mPresenter.onActivityResult(requestCode, resultCode, data)

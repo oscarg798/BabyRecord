@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import co.com.babyrecord.R
 import co.com.babyrecord.Utils
 import co.com.core.models.SizeRecord
+import io.reactivex.subjects.PublishSubject
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -17,6 +18,8 @@ class SizeRecordAdapter(private val mSizeRecords: ArrayList<SizeRecord>,
 
 
     private val mSimpleDateFormat = SimpleDateFormat("d MMM yyyy", Locale.getDefault())
+
+    val mSizeObservable = PublishSubject.create<Int>()
 
 
     override fun onBindViewHolder(holder: SizeRecordViewHolder?, position: Int) {
@@ -33,7 +36,7 @@ class SizeRecordAdapter(private val mSizeRecords: ArrayList<SizeRecord>,
         }
     }
 
-    fun addSizeRecords(sizeRecords:List<SizeRecord>){
+    fun addSizeRecords(sizeRecords: List<SizeRecord>) {
         mSizeRecords.addAll(sizeRecords)
         mSizeRecords.sortedByDescending { it.date }
         notifyDataSetChanged()
@@ -49,7 +52,11 @@ class SizeRecordAdapter(private val mSizeRecords: ArrayList<SizeRecord>,
         notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int = mSizeRecords.size
+    override fun getItemCount(): Int {
+        mSizeObservable.onNext(mSizeRecords.size)
+        return mSizeRecords.size
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SizeRecordViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.size_record_view_holder,

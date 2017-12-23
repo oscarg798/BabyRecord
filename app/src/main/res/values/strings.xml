@@ -23,4 +23,6 @@
     <string name="birthday_label">Birthday</string>
     <string name="title_activity_add_size_record">AddSizeRecordActivity</string>
     <string name="when_the_measurement_was_made_label">When the measurement was made</string>
+    <string name="no_size_records">You do not have any size records \n please press '+' to create a new size records</string>
+    <string name="delete_size_record_confirmation_message">Are you sure you want to delete this size record?</string>
 </resources>

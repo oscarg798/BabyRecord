@@ -35,6 +35,7 @@ class SizeRecordAdapter(private val mSizeRecords: ArrayList<SizeRecord>,
 
     fun addSizeRecords(sizeRecords:List<SizeRecord>){
         mSizeRecords.addAll(sizeRecords)
+        mSizeRecords.sortedByDescending { it.date }
         notifyDataSetChanged()
     }
 

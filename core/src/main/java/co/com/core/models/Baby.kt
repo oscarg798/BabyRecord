@@ -9,13 +9,13 @@ import android.os.Parcelable
 data class Baby(val name: String,
                 val birthDate: Long,
                 val weight: Int? = null,
-                val height: Int? = null) : Parcelable {
+                val height: Float? = null) : Parcelable {
 
     constructor(source: Parcel) : this(
             source.readString(),
             source.readLong(),
             source.readValue(Int::class.java.classLoader) as Int?,
-            source.readValue(Int::class.java.classLoader) as Int?
+            source.readValue(Float::class.java.classLoader) as Float?
     )
 
     override fun describeContents() = 0

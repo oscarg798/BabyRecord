@@ -82,12 +82,12 @@ class BabyProfileFragment : Fragment(), IBabyProfileFragmentView {
 
     override fun showWeight(weight: SpannableString) {
         mTVWeigth?.text = weight
-        mTVWeigth?.visibility = View.GONE
+        mTVWeigth?.visibility = View.VISIBLE
     }
 
     override fun showHeight(height: SpannableString) {
         mTVHeight?.text = height
-        mTVHeight?.visibility = View.GONE
+        mTVHeight?.visibility = View.VISIBLE
     }
 
     override fun hideWeight() {

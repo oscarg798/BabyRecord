@@ -12,13 +12,13 @@ import io.reactivex.Single
  */
 class UpdateBabyUseCase(mSubscribeOnScheduler: Scheduler,
                         mObserverOnScheduler: Scheduler) :
-        SingleUseCase<Baby, Baby>(mSubscribeOnScheduler, mObserverOnScheduler){
+        SingleUseCase<Baby, Baby>(mSubscribeOnScheduler, mObserverOnScheduler) {
 
     override fun buildUseCase(params: Baby): Single<Baby> {
         return Single.create { emitter ->
+
             PersistenceFactory.instance.getDatabase().babyDAO().update(DBBaby(name = params.name,
-                    birthDate = params.birthDate, weight = params.weight,
-                    height = params.height))
+                    birthDate = params.birthDate))
 
             emitter.onSuccess(params)
         }

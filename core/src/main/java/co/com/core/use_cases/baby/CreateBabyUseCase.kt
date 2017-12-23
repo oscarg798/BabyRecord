@@ -17,9 +17,9 @@ class CreateBabyUseCase(mSubscribeOnScheduler: Scheduler,
     override fun buildUseCase(params: Baby): Single<Baby> {
         return Single.create { emitter ->
 
-            PersistenceFactory.instance.getDatabase().babyDAO().insert(DBBaby(name = params.name,
-                    birthDate = params.birthDate, weight = params.weight,
-                    height = params.height))
+            PersistenceFactory.instance.getDatabase().babyDAO().
+                    insert(DBBaby(name = params.name,
+                    birthDate = params.birthDate))
 
             emitter.onSuccess(params)
 

@@ -10,6 +10,4 @@ import java.util.*
 @Entity(tableName = "baby")
 data class DBBaby(@PrimaryKey val uuid: String = UUID.randomUUID().toString(),
                   val name: String,
-                  val birthDate: Long,
-                  val weight: Int?,
-                  val height: Int?)
+                  val birthDate: Long)

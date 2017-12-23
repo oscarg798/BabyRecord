@@ -29,7 +29,7 @@ class AddSizeRecordActivityPresenter : IAddSizeRecordActivityPresenter {
         mView?.initComponents()
     }
 
-    override fun saveSizeRecord(height: Int, weight: Int) {
+    override fun saveSizeRecord(height: Float, weight: Int) {
         if (mDateSelected !== null) {
             mView?.showProgressBar()
             SaveSizeRecordUseCase(Schedulers.io(),

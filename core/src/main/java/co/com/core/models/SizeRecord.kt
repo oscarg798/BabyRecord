@@ -8,20 +8,20 @@ import java.util.*
  * Created by oscarg798 on 12/22/17.
  */
 data class SizeRecord(val uuid: String = UUID.randomUUID().toString(),
-                      val height: Int,
+                      val height: Float,
                       val weight: Int,
                       val date: Long) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString(),
-            parcel.readInt(),
+            parcel.readFloat(),
             parcel.readInt(),
             parcel.readLong()) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(uuid)
-        parcel.writeInt(height)
+        parcel.writeFloat(height)
         parcel.writeInt(weight)
         parcel.writeLong(date)
     }

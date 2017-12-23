@@ -17,8 +17,14 @@ class GetBabyUseCase(mSubscribeOnScheduler: Scheduler,
     override fun buildUseCase(params: Any?): Single<Baby> {
         return Single.create { emitter ->
             val dbBaby = PersistenceFactory.instance.getDatabase().babyDAO().get()
-            emitter.onSuccess(Baby(dbBaby.name, dbBaby.birthDate, dbBaby.weight,
-                    dbBaby.height))
+            val sizeRecords = PersistenceFactory.instance.getDatabase().
+                    sizeRecordDAO().get().sortedByDescending { it.date }
+
+            val baby = Baby(dbBaby.name, dbBaby.birthDate,
+                    if(sizeRecords.isNotEmpty()) sizeRecords[0].weight else null,
+                    if(sizeRecords.isNotEmpty()) sizeRecords[0].height else null)
+
+            emitter.onSuccess(baby)
         }
     }
 }

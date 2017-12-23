@@ -63,7 +63,7 @@ class AddSizeRecordActivity : AppCompatActivity(),
                 when {
                     TextUtils.isEmpty(height) -> mETHeight?.error = "You must enter the height on cm"
                     TextUtils.isEmpty(weight) -> mETWeight?.error = "You must enter the weight on pounds"
-                    else -> mPresenter.saveSizeRecord(height.toInt(), weight.toInt())
+                    else -> mPresenter.saveSizeRecord(height.toFloat(), weight.toInt())
                 }
 
 

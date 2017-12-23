@@ -9,5 +9,5 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 interface IAddSizeRecordActivityPresenter : IBasePresenter<IAddSizeRecordActivityView>,
         DatePickerDialog.OnDateSetListener {
 
-    fun saveSizeRecord(height: Int, weight: Int)
+    fun saveSizeRecord(height: Float, weight: Int)
 }

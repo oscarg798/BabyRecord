@@ -9,6 +9,6 @@ import java.util.*
  */
 @Entity(tableName = "size_record")
 data class DBSizeRecord(@PrimaryKey val uuid: String = UUID.randomUUID().toString(),
-                        val height: Int,
+                        val height: Float,
                         val weight: Int,
                         val date: Long)

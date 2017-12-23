@@ -1,6 +1,5 @@
 package co.com.babyrecord.sleep_record
 
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
 import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 /**
  * Created by oscarg798 on 12/20/17.
@@ -22,6 +20,8 @@ class RecordsRecyclerViewAdapter(val mRecords: ArrayList<SleepRecordsByDate>,
         ExpandableRecyclerViewAdapter<SleepRecordHeaderViewholder, RecordViewHolder>(mRecords) {
 
     private val mCalendar = Calendar.getInstance()
+
+    private val mCurrentDayInLong = Calendar.getInstance().timeInMillis
 
     private val mSimpleTimeFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
 
@@ -92,6 +92,9 @@ class RecordsRecyclerViewAdapter(val mRecords: ArrayList<SleepRecordsByDate>,
             holder.mTVDeleteRecord?.setOnClickListener {
                 mCallbacks.deleteRecord(group.items[childIndex])
             }
+
+            holder.mTVSetEndTimeToRecord?.visibility = if (Utils.instance.canStopTheRecord(group.items[childIndex].startTime,
+                    mCurrentDayInLong)) View.VISIBLE else View.GONE
 
         }
     }

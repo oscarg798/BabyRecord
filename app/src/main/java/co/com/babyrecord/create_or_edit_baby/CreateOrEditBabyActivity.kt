@@ -1,4 +1,4 @@
-package co.com.babyrecord.baby
+package co.com.babyrecord.create_or_edit_baby
 
 import android.app.Activity
 import android.content.Intent
@@ -44,7 +44,6 @@ class CreateOrEditBabyActivity : AppCompatActivity(), ICreateOrEditBabyActivityV
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-
         menu?.let {
             menuInflater?.inflate(R.menu.create_or_edit_baby_menu, menu)
         }

@@ -23,18 +23,21 @@ class BabyProfileFragmentPresenter : IBabyProfileFragmentPresenter {
     private val mSimpleDateFormat = SimpleDateFormat("d MMM yyyy",
             Locale.getDefault())
 
+    private var mBaby: Baby? = null
+
     override fun bind(view: IBabyProfileFragmentView) {
         mView = view
         mView?.initComponents()
-        getBaby()
+        getBabyFromData()
     }
 
-    private fun getBaby() {
+    private fun getBabyFromData() {
         mView?.showProgressBar()
         GetBabyUseCase(Schedulers.io(),
                 AndroidSchedulers.mainThread())
                 .execute(null, object : DisposableSingleObserver<Baby>() {
                     override fun onSuccess(t: Baby) {
+                        mBaby = t
                         deliverBaby(t)
                         mView?.hideProgressBar()
                         this.dispose()
@@ -55,6 +58,7 @@ class BabyProfileFragmentPresenter : IBabyProfileFragmentPresenter {
         mView?.showName(Utils.Companion.instance.boldTextPrefix("Name: ${baby.name}"))
         mView?.showBirthday(Utils.Companion.instance.
                 boldTextPrefix("Birthday: ${mSimpleDateFormat.format(Date(baby.birthDate))}"))
+        mView?.showBabyAge(baby.birthDate)
 
         if (baby.weight === null) {
             mView?.hideWeight()
@@ -82,4 +86,7 @@ class BabyProfileFragmentPresenter : IBabyProfileFragmentPresenter {
         mView = null
     }
 
+    override fun getBaby(): Baby? {
+        return mBaby
+    }
 }

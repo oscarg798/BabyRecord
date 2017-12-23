@@ -5,6 +5,8 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import co.com.core.models.Record
+import java.time.Month
+import java.util.*
 
 
 /**
@@ -12,15 +14,24 @@ import co.com.core.models.Record
  */
 class Utils private constructor() {
 
+    private val secondsInMilli: Long = 1000
+    private val minutesInMilli = secondsInMilli * 60
+    private val hoursInMilli = minutesInMilli * 60
+    private val dayInMilli = hoursInMilli * 24
+    private val monthInMilli = 2629746000
+    private val yearInMilli = monthInMilli * 12
+
+    fun canStopTheRecord(startTime: Long, currentTime: Long): Boolean {
+
+        return ((currentTime - startTime) / hoursInMilli) <= 24
+    }
+
     fun calculateRecordDuration(startTime: Long?, endTime: Long?): String? {
 
         endTime?.let {
             startTime?.let {
                 var different = endTime - startTime
 
-                val secondsInMilli: Long = 1000
-                val minutesInMilli = secondsInMilli * 60
-                val hoursInMilli = minutesInMilli * 60
 
                 val elapsedHours = different / hoursInMilli
                 different %= hoursInMilli
@@ -39,6 +50,23 @@ class Utils private constructor() {
         }
 
         return null
+    }
+
+    fun getBabyAge(birthDay: Long): String {
+        val currentDate = Calendar.getInstance().timeInMillis
+        var different = currentDate - birthDay
+        val elapsedYears = different / yearInMilli
+        val elapsedMonths = (different % yearInMilli) / monthInMilli
+        val elapseDays = (different % monthInMilli) / dayInMilli
+
+
+        return if (elapsedYears > 0) {
+            "Your baby is $elapsedYears years and $elapsedMonths monthand $elapseDays days"
+        } else {
+            "Your baby is $elapsedMonths month and $elapseDays days"
+        }
+
+
     }
 
     fun boldTextPrefix(text: String): SpannableString {

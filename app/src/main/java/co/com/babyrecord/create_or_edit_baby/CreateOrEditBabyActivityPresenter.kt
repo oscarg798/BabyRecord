@@ -1,12 +1,10 @@
-package co.com.babyrecord.baby
+package co.com.babyrecord.create_or_edit_baby
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.DatePicker
 import co.com.babyrecord.BABY_KEY
 import co.com.core.models.Baby
 import co.com.core.use_cases.baby.CreateBabyUseCase
-import co.com.core.use_cases.baby.GetBabyUseCase
 import co.com.core.use_cases.baby.UpdateBabyUseCase
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -45,6 +43,7 @@ class CreateOrEditBabyActivityPresenter : ICreateOrEditBabyActivityPresenter {
             mBaby?.let {
                 mView?.showName(mBaby!!.name)
                 mView?.showBirthday(mSimpleDateFormat.format(Date(mBaby!!.birthDate)))
+                mBirthdaySelected = mBaby!!.birthDate
             }
         }
     }

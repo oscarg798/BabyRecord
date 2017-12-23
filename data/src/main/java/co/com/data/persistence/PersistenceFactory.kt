@@ -14,7 +14,9 @@ class PersistenceFactory private constructor() {
     fun initDatabase(context: Context) {
         database = Room.databaseBuilder(context,
                 AppDatabase::class.java, DATABASE_NAME)
-                .addMigrations(MIGRATION_1_2, MIGRATION_2_3).build()
+                .addMigrations(MIGRATION_1_2,
+                        MIGRATION_2_3,
+                        MIGRATION_3_4).build()
 
     }
 

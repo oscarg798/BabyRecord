@@ -2,6 +2,7 @@ package co.com.babyrecord.profile
 
 import android.text.SpannableString
 import co.com.babyrecord.IBaseView
+import co.com.core.models.Baby
 
 /**
  * Created by oscarg798 on 12/22/17.
@@ -23,4 +24,6 @@ interface IBabyProfileFragmentView : IBaseView {
     fun showNoBabyMessage()
 
     fun hideNoBabyMessage()
+
+    fun showBabyAge(birthDay: Long)
 }

@@ -8,10 +8,12 @@ import android.text.SpannableString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import co.com.babyrecord.BABY_KEY
 import co.com.babyrecord.CREATE_OR_EDIT_BABY_REQUEST_CODE
 
 import co.com.babyrecord.R
-import co.com.babyrecord.baby.CreateOrEditBabyActivity
+import co.com.babyrecord.Utils
+import co.com.babyrecord.create_or_edit_baby.CreateOrEditBabyActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 
@@ -42,8 +44,14 @@ class BabyProfileFragment : Fragment(), IBabyProfileFragmentView {
         mSRLProfile?.isEnabled = false
         mFabCreateBaby?.setOnClickListener {
             activity?.let {
-                startActivityForResult(Intent(activity,
-                        CreateOrEditBabyActivity::class.java), CREATE_OR_EDIT_BABY_REQUEST_CODE)
+
+                val intent = Intent(activity,
+                        CreateOrEditBabyActivity::class.java)
+                val baby = mPresenter.getBaby()
+                baby?.let {
+                    intent.putExtra(BABY_KEY, baby)
+                }
+                startActivityForResult(intent, CREATE_OR_EDIT_BABY_REQUEST_CODE)
             }
 
         }
@@ -68,6 +76,10 @@ class BabyProfileFragment : Fragment(), IBabyProfileFragmentView {
         mTVBirthday?.text = birthDay
     }
 
+    override fun showBabyAge(birthDay: Long){
+        mTVAge?.text = Utils.instance.getBabyAge(birthDay)
+    }
+
     override fun showWeight(weight: SpannableString) {
         mTVWeigth?.text = weight
         mTVWeigth?.visibility = View.GONE
@@ -88,18 +100,20 @@ class BabyProfileFragment : Fragment(), IBabyProfileFragmentView {
 
     override fun showNoBabyMessage() {
         mLLNoBabyMessage?.visibility = View.VISIBLE
-        mFabCreateBaby?.visibility = View.VISIBLE
+        mFabCreateBaby?.setImageDrawable(resources.getDrawable(R.drawable.ic_add))
         mTVName?.visibility = View.GONE
         mTVBirthday?.visibility = View.GONE
+        mTVAge?.visibility = View.GONE
         mTVHeight?.visibility = View.GONE
         mTVWeigth?.visibility = View.GONE
     }
 
     override fun hideNoBabyMessage() {
         mLLNoBabyMessage?.visibility = View.GONE
-        mFabCreateBaby?.visibility = View.GONE
+        mFabCreateBaby?.setImageDrawable(resources.getDrawable(R.drawable.ic_edit))
         mTVName?.visibility = View.VISIBLE
         mTVBirthday?.visibility = View.VISIBLE
+        mTVAge?.visibility = View.VISIBLE
         mTVHeight?.visibility = View.VISIBLE
         mTVWeigth?.visibility = View.VISIBLE
     }

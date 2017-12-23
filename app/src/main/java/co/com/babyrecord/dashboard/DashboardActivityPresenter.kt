@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.MenuItem
 import co.com.babyrecord.R
 import co.com.babyrecord.profile.BabyProfileFragment
+import co.com.babyrecord.size_record.SizeRecordFragment
 import co.com.babyrecord.sleep_record.SleepRecordFragment
 import java.lang.ref.WeakReference
 
@@ -34,6 +35,10 @@ class DashboardActivityPresenter : IDashboardActivityPresenter {
 
             }
             R.id.navigation_size -> {
+                mCurrentFragment = WeakReference(SizeRecordFragment.newInstance())
+                mCurrentFragment?.get()?.let {
+                    mView?.changeFragment(mCurrentFragment!!.get()!!, "sizeRecordFragment")
+                }
 
             }
             R.id.navigation_profile -> {

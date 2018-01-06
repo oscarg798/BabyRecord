@@ -32,4 +32,6 @@
     <string name="feed_record">Feed Record</string>
     <string name="select_a_date_to_create_a_record_label">Select a date to create a record</string>
     <string name="records_message_instruction">Select a date to create/watch a record</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 </resources>

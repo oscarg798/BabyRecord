@@ -1,7 +1,11 @@
 package co.com.babyrecord.records
 
 import android.app.Fragment
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
@@ -10,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import co.com.babyrecord.DATE_PICKER_DIALOG_TAG
 import co.com.babyrecord.R
+import co.com.babyrecord.records.widget.RecordsWidget
 import co.com.core.models.Record
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.android.synthetic.main.fragment_sleep_record.*
@@ -27,8 +32,18 @@ class RecordsFragment : Fragment(), IRecordsFragmentView {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mPresenter.bind(this)
+
     }
 
+
+    fun sendRefreshBroadcast() {
+        activity?.let {
+            val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+            intent.component = ComponentName(activity, RecordsWidget::class.java)
+            activity.sendBroadcast(intent)
+        }
+
+    }
 
     override fun initComponents() {
         activity?.let {
@@ -80,8 +95,8 @@ class RecordsFragment : Fragment(), IRecordsFragmentView {
     override fun showRecords(records: ArrayList<Record>) {
         mRVRecords?.adapter?.let {
             (mRVRecords.adapter as RecordsRecyclerViewAdapter).addRecord(records)
-
         }
+        sendRefreshBroadcast()
 
     }
 

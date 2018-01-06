@@ -52,12 +52,15 @@ class RecordsRecyclerViewAdapter(val mRecords: ArrayList<Record>,
 
             val duration = Utils.instance.calculateRecordDuration(mRecords[position].startTime,
                     mRecords[position].endTime)
+
             if (duration !== null) {
                 holder.mTVRecordDuration?.
                         setText(Utils.instance.
                                 boldTextPrefix("Duration: $duration"),
                                 TextView.BufferType.SPANNABLE)
                 holder.mTVRecordDuration?.visibility = View.VISIBLE
+                holder.mTVRecordDuration.visibility = if (mRecords[position].type == MEDICINE_TYPE) View.GONE else View.VISIBLE
+
             } else {
                 holder.mTVRecordDuration?.visibility = View.GONE
             }
@@ -95,13 +98,12 @@ class RecordsRecyclerViewAdapter(val mRecords: ArrayList<Record>,
 
             holder.mTVEndTime.visibility = if (mRecords[position].type == MEDICINE_TYPE) View.GONE else View.VISIBLE
 
-            
 
-            holder.mTVRecordDuration.visibility = if (mRecords[position].type == MEDICINE_TYPE) View.GONE else View.VISIBLE
+
 
 
             holder.mIVTypeIcon.setImageDrawable(ContextCompat.getDrawable(holder.mIVTypeIcon.context, when (mRecords[position].type) {
-                SLEEP_TYPE -> R.drawable.ic_sleep
+                SLEEP_TYPE -> R.drawable.ic_sleep_white
                 FEED_TYPE -> R.drawable.ic_feed
                 else -> R.drawable.ic_pills
             }))

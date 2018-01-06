@@ -1,6 +1,7 @@
 package co.com.babyrecord.records
 
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import co.com.babyrecord.R
 import com.thoughtbot.expandablerecyclerview.viewholders.ChildViewHolder
@@ -18,4 +19,5 @@ class RecordViewHolder(mItemView: View) : ChildViewHolder(mItemView) {
     val mTVSetEndTimeToRecord = mItemView.findViewById<TextView>(R.id.mTVSetEndTimeToRecord)
     val mTVRecordDuration = mItemView.findViewById<TextView>(R.id.mTVRecordDuration)
     val mTVTimeFromLastRecord = mItemView.findViewById<TextView>(R.id.mTVTimeFromLastRecord)
+    val mIVTypeIcon = mItemView.findViewById<ImageView>(R.id.mIVTypeIcon)
 }

@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import co.com.babyrecord.DATE_PICKER_DIALOG_TAG
 import co.com.babyrecord.R
-import co.com.babyrecord.calendar.CalendarDialogDialogFragment
 import co.com.core.models.Record
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.android.synthetic.main.fragment_sleep_record.*
@@ -39,6 +38,16 @@ class RecordsFragment : Fragment(), IRecordsFragmentView {
             mRVRecords?.adapter = RecordsRecyclerViewAdapter(ArrayList(), mPresenter)
 
             mFABCreateSleepRecord?.setOnClickListener { v ->
+                mPresenter.creteRecord(v.id)
+                mFAMRecord.collapse()
+            }
+
+            mFABCreateMedicineRecord?.setOnClickListener { v ->
+                mPresenter.creteRecord(v.id)
+                mFAMRecord.collapse()
+            }
+
+            mFABCreateFeedRecord.setOnClickListener { v ->
                 mPresenter.creteRecord(v.id)
                 mFAMRecord.collapse()
             }

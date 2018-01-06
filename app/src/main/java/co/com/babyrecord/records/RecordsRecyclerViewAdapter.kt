@@ -1,17 +1,18 @@
 package co.com.babyrecord.records
 
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffColorFilter
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import co.com.babyrecord.R
-import co.com.babyrecord.Utils
+import co.com.babyrecord.*
 import co.com.core.models.Record
-import com.thoughtbot.expandablerecyclerview.ExpandableRecyclerViewAdapter
-import com.thoughtbot.expandablerecyclerview.models.ExpandableGroup
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 /**
  * Created by oscarg798 on 12/20/17.
@@ -88,7 +89,26 @@ class RecordsRecyclerViewAdapter(val mRecords: ArrayList<Record>,
             }
 
             holder.mTVSetEndTimeToRecord?.visibility = if (Utils.instance.canStopTheRecord(mRecords[position].startTime,
-                    mCurrentDayInLong)) View.VISIBLE else View.GONE
+                    mCurrentDayInLong)) {
+                if (mRecords[position].type == MEDICINE_TYPE) View.GONE else View.VISIBLE
+            } else View.GONE
+
+            holder.mTVEndTime.visibility = if (mRecords[position].type == MEDICINE_TYPE) View.GONE else View.VISIBLE
+
+            
+
+            holder.mTVRecordDuration.visibility = if (mRecords[position].type == MEDICINE_TYPE) View.GONE else View.VISIBLE
+
+
+            holder.mIVTypeIcon.setImageDrawable(ContextCompat.getDrawable(holder.mIVTypeIcon.context, when (mRecords[position].type) {
+                SLEEP_TYPE -> R.drawable.ic_sleep
+                FEED_TYPE -> R.drawable.ic_feed
+                else -> R.drawable.ic_pills
+            }))
+
+            holder.mIVTypeIcon.setColorFilter(holder.mIVTypeIcon.context.resources.
+                    getColor(R.color.colorPrimary))
+
 
         }
     }

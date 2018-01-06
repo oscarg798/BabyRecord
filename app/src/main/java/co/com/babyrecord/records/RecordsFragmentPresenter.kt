@@ -2,9 +2,7 @@ package co.com.babyrecord.records
 
 import android.content.DialogInterface
 import android.content.Intent
-import co.com.babyrecord.BaseApplication
-import co.com.babyrecord.R
-import co.com.babyrecord.SLEEP_TYPE
+import co.com.babyrecord.*
 import co.com.core.models.Record
 import co.com.core.use_cases.record.CreateRecordUseCase
 import co.com.core.use_cases.record.DeleteRecordUseCase
@@ -80,11 +78,19 @@ class RecordsFragmentPresenter : IRecordsFragmentPresenter {
 
     override fun creteRecord(viewID: Int) {
         mView?.showProgressBar()
+
         CreateRecordUseCase(Schedulers.io(),
                 AndroidSchedulers.mainThread()).
                 execute(Record(UUID.randomUUID().toString(),
                         Calendar.getInstance().timeInMillis,
-                        null, SLEEP_TYPE),
+                        when (viewID) {
+                            R.id.mFABCreateMedicineRecord -> Calendar.getInstance().timeInMillis
+                            else -> null
+                        }, when (viewID) {
+                    R.id.mFABCreateSleepRecord -> SLEEP_TYPE
+                    R.id.mFABCreateFeedRecord -> FEED_TYPE
+                    else -> MEDICINE_TYPE
+                }),
                         object : DisposableSingleObserver<Record>() {
                             override fun onError(e: Throwable) {
                                 e.printStackTrace()

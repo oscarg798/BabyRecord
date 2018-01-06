@@ -1,9 +1,14 @@
 package co.com.babyrecord
 
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import co.com.babyrecord.records.widget.RecordsWidget
 import co.com.core.models.Record
 import java.time.Month
 import java.util.*
@@ -75,6 +80,12 @@ class Utils private constructor() {
         spannable.setSpan(ForegroundColorSpan(Color.BLACK), 0, text.indexOf(":") + 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         return spannable
+    }
+
+     fun requestWidgetUpdate(context:Context) {
+        val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
+        intent.component = ComponentName(context, RecordsWidget::class.java)
+         context.sendBroadcast(intent)
     }
 
     private object Holder {

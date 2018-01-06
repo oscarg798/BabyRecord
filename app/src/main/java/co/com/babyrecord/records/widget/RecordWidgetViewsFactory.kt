@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.os.Looper
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.RemoteViews
@@ -46,6 +47,8 @@ class RecordWidgetViewsFactory(val mContext: Context,
                         object : DisposableSingleObserver<List<Record>>() {
                             override fun onSuccess(t: List<Record>) {
                                 mRecords.addAll(t)
+                                mRecords.sortedByDescending { it.startTime }
+                                mRecords.reverse()
                                 this.dispose()
                             }
 

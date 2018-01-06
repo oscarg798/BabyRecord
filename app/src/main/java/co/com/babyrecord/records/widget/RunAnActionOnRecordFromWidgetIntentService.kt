@@ -1,13 +1,11 @@
 package co.com.babyrecord.records.widget
 
-import android.app.IntentService
 import android.app.Service
-import android.appwidget.AppWidgetManager
-import android.content.ComponentName
 import android.content.Intent
 import android.os.IBinder
 import co.com.babyrecord.R
 import co.com.babyrecord.RECORD
+import co.com.babyrecord.Utils
 import co.com.babyrecord.VIEW_ID
 import co.com.core.models.Record
 import co.com.core.use_cases.record.DeleteRecordUseCase
@@ -15,7 +13,6 @@ import co.com.core.use_cases.record.UpdateRecordUseCase
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.record_view_holder.view.*
 import java.util.*
 
 /**
@@ -57,7 +54,7 @@ class RunAnActionOnRecordFromWidgetIntentService : Service() {
                     }
 
                     override fun onSuccess(t: Record) {
-                        requestWidgetUpdate()
+                        Utils.Companion.instance.requestWidgetUpdate(applicationContext)
                         this.dispose()
                     }
                 })
@@ -74,15 +71,11 @@ class RunAnActionOnRecordFromWidgetIntentService : Service() {
                             }
 
                             override fun onSuccess(t: String) {
-                                requestWidgetUpdate()
+                                Utils.Companion.instance.requestWidgetUpdate(applicationContext)
                                 this.dispose()
                             }
                         })
     }
 
-    private fun requestWidgetUpdate() {
-        val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
-        intent.component = ComponentName(applicationContext, RecordsWidget::class.java)
-        applicationContext.sendBroadcast(intent)
-    }
+
 }

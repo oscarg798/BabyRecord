@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import co.com.babyrecord.DATE_PICKER_DIALOG_TAG
 import co.com.babyrecord.R
+import co.com.babyrecord.Utils
 import co.com.babyrecord.records.widget.RecordsWidget
 import co.com.core.models.Record
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
@@ -36,11 +37,9 @@ class RecordsFragment : Fragment(), IRecordsFragmentView {
     }
 
 
-    fun sendRefreshBroadcast() {
+    private fun sendRefreshBroadcast() {
         activity?.let {
-            val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
-            intent.component = ComponentName(activity, RecordsWidget::class.java)
-            activity.sendBroadcast(intent)
+           Utils.instance.requestWidgetUpdate(activity)
         }
 
     }

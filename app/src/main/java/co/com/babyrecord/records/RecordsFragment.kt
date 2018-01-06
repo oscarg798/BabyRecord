@@ -47,7 +47,7 @@ class RecordsFragment : Fragment(), IRecordsFragmentView {
 
     override fun initComponents() {
         activity?.let {
-            mSRLDashboard?.isEnabled = false
+            mSRLDashboard?.setOnRefreshListener(mPresenter)
             mRVRecords?.setHasFixedSize(false)
             mRVRecords?.layoutManager = LinearLayoutManager(activity)
             mRVRecords?.adapter = RecordsRecyclerViewAdapter(ArrayList(), mPresenter)
@@ -104,19 +104,24 @@ class RecordsFragment : Fragment(), IRecordsFragmentView {
         mRVRecords?.adapter?.let {
             (mRVRecords.adapter as RecordsRecyclerViewAdapter).updateRecord(record)
         }
+        sendRefreshBroadcast()
+
     }
 
     override fun addRecord(record: Record) {
         mRVRecords?.adapter?.let {
             (mRVRecords.adapter as RecordsRecyclerViewAdapter).addRecord(arrayListOf(record))
-
         }
+        sendRefreshBroadcast()
+
     }
 
     override fun removeRecord(recordUuid: String) {
         mRVRecords?.adapter?.let {
             (mRVRecords.adapter as RecordsRecyclerViewAdapter).removeRecord(recordUuid)
         }
+        sendRefreshBroadcast()
+
     }
 
     override fun showConfirmationAlertDialog(message: String, okButtonCallback: DialogInterface.OnClickListener) {

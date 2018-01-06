@@ -132,6 +132,13 @@ class RecordsFragmentPresenter : IRecordsFragmentPresenter {
         updateRecord(record)
     }
 
+    override fun onRefresh() {
+        mView?.clearRecords()
+        getRecords(mCurrentRecordsCalendar.timeInMillis)
+        val currentCalendar = Calendar.getInstance()
+        mView?.showHideFabMenuCreateRecords(currentCalendar.get(Calendar.YEAR) == mCurrentRecordsCalendar.get(Calendar.YEAR) &&
+                currentCalendar.get(Calendar.DAY_OF_YEAR) == mCurrentRecordsCalendar.get(Calendar.DAY_OF_YEAR))
+    }
     override fun deleteRecord(record: Record) {
 
         mView?.showConfirmationAlertDialog(BaseApplication.instance.getString(R.string.delete_record_confirmation_message),
@@ -161,12 +168,9 @@ class RecordsFragmentPresenter : IRecordsFragmentPresenter {
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
         mCurrentRecordsCalendar.set(year, monthOfYear, dayOfMonth)
-        mView?.clearRecords()
         mView?.setRecordsDate(mSimpleDateFormat.format(mCurrentRecordsCalendar.time))
-        getRecords(mCurrentRecordsCalendar.timeInMillis)
-        val currentCalendar = Calendar.getInstance()
-        mView?.showHideFabMenuCreateRecords(currentCalendar.get(Calendar.YEAR) == mCurrentRecordsCalendar.get(Calendar.YEAR) &&
-                currentCalendar.get(Calendar.DAY_OF_YEAR) == mCurrentRecordsCalendar.get(Calendar.DAY_OF_YEAR))
+        onRefresh()
+
 
     }
 

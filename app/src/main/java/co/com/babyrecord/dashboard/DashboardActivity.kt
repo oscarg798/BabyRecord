@@ -41,6 +41,10 @@ class DashboardActivity : AppCompatActivity(), IDashboardActivityView {
         }
     }
 
+    override fun setTitle(title: String) {
+        supportActionBar?.title = title
+    }
+
     override fun onBackPressed() {
         fragmentManager?.let {
             if (fragmentManager.backStackEntryCount == 1) {

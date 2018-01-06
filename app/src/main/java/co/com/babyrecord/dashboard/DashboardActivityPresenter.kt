@@ -3,10 +3,12 @@ package co.com.babyrecord.dashboard
 import android.app.Fragment
 import android.content.Intent
 import android.view.MenuItem
+import co.com.babyrecord.BaseApplication
 import co.com.babyrecord.R
+import co.com.babyrecord.calendar.CalendarDialogDialogFragment
 import co.com.babyrecord.profile.BabyProfileFragment
+import co.com.babyrecord.records.RecordsFragment
 import co.com.babyrecord.size_record.SizeRecordFragment
-import co.com.babyrecord.sleep_record.SleepRecordFragment
 import java.lang.ref.WeakReference
 
 /**
@@ -27,10 +29,11 @@ class DashboardActivityPresenter : IDashboardActivityPresenter {
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_sleep_record -> {
-                mCurrentFragment = WeakReference(SleepRecordFragment.newInstance())
+                mCurrentFragment = WeakReference(RecordsFragment.newInstance())
                 mCurrentFragment?.get()?.let {
-                    mView?.changeFragment(mCurrentFragment!!.get()!!, "sleepRecordFragment")
+                    mView?.changeFragment(mCurrentFragment!!.get()!!, "recordsFragment")
                 }
+                mView?.setTitle(BaseApplication.instance.getString(R.string.record_title))
 
 
             }
@@ -39,6 +42,7 @@ class DashboardActivityPresenter : IDashboardActivityPresenter {
                 mCurrentFragment?.get()?.let {
                     mView?.changeFragment(mCurrentFragment!!.get()!!, "sizeRecordFragment")
                 }
+                mView?.setTitle(BaseApplication.instance.getString(R.string.size_records_title))
 
             }
             R.id.navigation_profile -> {
@@ -46,6 +50,7 @@ class DashboardActivityPresenter : IDashboardActivityPresenter {
                 mCurrentFragment?.get()?.let {
                     mView?.changeFragment(mCurrentFragment!!.get()!!, "sleepRecordFragment")
                 }
+                mView?.setTitle(BaseApplication.instance.getString(R.string.baby_profile_title))
             }
         }
         return true

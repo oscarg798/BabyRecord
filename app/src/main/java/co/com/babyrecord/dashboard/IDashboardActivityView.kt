@@ -9,4 +9,6 @@ import co.com.babyrecord.IBaseView
 interface IDashboardActivityView : IBaseView {
 
     fun changeFragment(fragment: Fragment, tag: String?)
+
+    fun setTitle(title: String)
 }

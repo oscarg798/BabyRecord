@@ -4,6 +4,8 @@ package co.com.babyrecord
  * Created by oscarg798 on 12/20/17.
  */
 val SLEEP_TYPE = "sleep"
+val FEED_TYPE = "feed"
+val MEDICINE_TYPE = "medicine"
 val EAT_TYPE = "eat"
 val BABY_KEY = "baby"
 val SIZE_RECORD_KEY = "sizeRecord"

@@ -1,4 +1,4 @@
-package co.com.babyrecord.sleep_record
+package co.com.babyrecord.records
 
 import android.content.DialogInterface
 import android.content.Intent
@@ -10,7 +10,7 @@ import co.com.core.use_cases.record.CreateRecordUseCase
 import co.com.core.use_cases.record.DeleteRecordUseCase
 import co.com.core.use_cases.record.GetRecordsUseCase
 import co.com.core.use_cases.record.UpdateRecordUseCase
-import io.reactivex.Single
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
@@ -21,9 +21,9 @@ import kotlin.collections.ArrayList
 /**
  * Created by oscarg798 on 12/20/17.
  */
-class SleepRecordFragmentPresenter : ISleepRecordFragmentPresenter {
+class RecordsFragmentPresenter : IRecordsFragmentPresenter {
 
-    private var mView: ISleepRecordFragmentView? = null
+    private var mView: IRecordsFragmentView? = null
 
     private var mRecords: List<Record>? = null
 
@@ -31,25 +31,29 @@ class SleepRecordFragmentPresenter : ISleepRecordFragmentPresenter {
 
     private val mSimpleDateFormat = SimpleDateFormat("d MMM yyyy", Locale.getDefault())
 
-    override fun bind(view: ISleepRecordFragmentView) {
+    private var mCurrentRecordsCalendar: Calendar = Calendar.getInstance()
+
+    override fun bind(view: IRecordsFragmentView) {
         mView = view
         mView?.initComponents()
         if (mRecords === null) {
-            getRecords()
+            getRecords(Calendar.getInstance().timeInMillis)
         } else {
             deliverRecords()
         }
+        mView?.setRecordsDate(mSimpleDateFormat.format(mCurrentRecordsCalendar.time))
+
     }
 
     override fun unBind() {
         mView = null
     }
 
-    private fun getRecords() {
+    private fun getRecords(date: Long) {
         mView?.showProgressBar()
         GetRecordsUseCase(Schedulers.io(),
                 AndroidSchedulers.mainThread())
-                .execute(null, object : DisposableSingleObserver<List<Record>>() {
+                .execute(date, object : DisposableSingleObserver<List<Record>>() {
                     override fun onSuccess(t: List<Record>) {
                         mRecords = t
                         deliverRecords()
@@ -68,49 +72,7 @@ class SleepRecordFragmentPresenter : ISleepRecordFragmentPresenter {
 
     private fun deliverRecords() {
         mRecords?.let {
-            mView?.showProgressBar()
-            Single.create<ArrayList<SleepRecordsByDate>> { emitter ->
-                val calendarMap = HashMap<Pair<Int, Int>, ArrayList<Record>>()
-                mRecords!!.forEach {
-                    mCalendar.timeInMillis = it.startTime
-                    val recordsByDate = if (calendarMap.containsKey(Pair(mCalendar.get(Calendar.YEAR), mCalendar
-                            .get(Calendar.DAY_OF_YEAR)))) {
-                        calendarMap[Pair(mCalendar.get(Calendar.YEAR), mCalendar
-                                .get(Calendar.DAY_OF_YEAR))]
-                    } else {
-                        ArrayList()
-                    }
-
-                    recordsByDate!!.add(it)
-                    calendarMap.put(Pair(mCalendar.get(Calendar.YEAR), mCalendar
-                            .get(Calendar.DAY_OF_YEAR)), recordsByDate)
-                }
-
-                val sleepRecordsByDate = ArrayList<SleepRecordsByDate>()
-
-                calendarMap.mapTo(sleepRecordsByDate, {
-                    mCalendar.timeInMillis = it.value[0].startTime
-                    SleepRecordsByDate(mSimpleDateFormat.format(it.value[0].startTime), it.value,
-                            mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.DAY_OF_YEAR))
-                })
-                emitter.onSuccess(sleepRecordsByDate)
-            }.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(object : DisposableSingleObserver<ArrayList<SleepRecordsByDate>>() {
-                        override fun onError(e: Throwable) {
-                            e.printStackTrace()
-                            mView?.hideProgressBar()
-                            this.dispose()
-
-                        }
-
-                        override fun onSuccess(t: ArrayList<SleepRecordsByDate>) {
-                            mView?.showRecords(t)
-                            mView?.hideProgressBar()
-                            this.dispose()
-                        }
-
-                    })
+            mView?.showRecords(ArrayList(mRecords))
         }
 
 
@@ -189,6 +151,23 @@ class SleepRecordFragmentPresenter : ISleepRecordFragmentPresenter {
 
                 })
 
+    }
+
+    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        mCurrentRecordsCalendar.set(year, monthOfYear, dayOfMonth)
+        mView?.clearRecords()
+        mView?.setRecordsDate(mSimpleDateFormat.format(mCurrentRecordsCalendar.time))
+        getRecords(mCurrentRecordsCalendar.timeInMillis)
+        val currentCalendar = Calendar.getInstance()
+        mView?.showHideFabMenuCreateRecords(currentCalendar.get(Calendar.YEAR) == mCurrentRecordsCalendar.get(Calendar.YEAR) &&
+                currentCalendar.get(Calendar.DAY_OF_YEAR) == mCurrentRecordsCalendar.get(Calendar.DAY_OF_YEAR))
+
+    }
+
+    override fun getSleepRecordByDateFromRecord(record: Record): SleepRecordsByDate {
+        mCalendar.timeInMillis = record.startTime
+        return SleepRecordsByDate(mSimpleDateFormat.format(Date(record.startTime)),
+                arrayListOf(record), mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.DAY_OF_YEAR))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

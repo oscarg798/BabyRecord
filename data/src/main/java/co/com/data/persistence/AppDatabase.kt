@@ -16,7 +16,7 @@ import co.com.data.persistence.entities.DBSizeRecord
 /**
  * Created by oscarg798 on 12/20/17.
  */
-@Database(entities = [(DBRecord::class), (DBBaby::class), (DBSizeRecord::class)], version = 5)
+@Database(entities = [(DBRecord::class), (DBBaby::class), (DBSizeRecord::class)], version = 6)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun recordDAO(): RecordDAO
@@ -73,6 +73,13 @@ val MIGRATION_4_5: Migration = object : Migration(4, 5) {
         database.execSQL("insert into size_record2 select * from size_record")
         database.execSQL("drop table size_record")
         database.execSQL("ALTER TABLE size_record2 rename to size_record")
+
+    }
+}
+
+val MIGRATION_5_6: Migration = object : Migration(5, 6) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+
 
     }
 }

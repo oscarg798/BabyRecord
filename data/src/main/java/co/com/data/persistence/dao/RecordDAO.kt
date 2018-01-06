@@ -21,4 +21,10 @@ interface RecordDAO {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(dbRecord: DBRecord)
 
+    @Query("select min(startTime) from record")
+    fun getRecordsMinDate():Long
+
+    @Query("select max(startTime) from record")
+    fun getRecordsMaxDate():Long
+
 }

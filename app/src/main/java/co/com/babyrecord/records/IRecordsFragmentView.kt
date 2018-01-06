@@ -1,5 +1,6 @@
-package co.com.babyrecord.sleep_record
+package co.com.babyrecord.records
 
+import android.app.DialogFragment
 import android.content.DialogInterface
 import co.com.babyrecord.IBaseView
 import co.com.core.models.Record
@@ -7,9 +8,9 @@ import co.com.core.models.Record
 /**
  * Created by oscarg798 on 12/20/17.
  */
-interface ISleepRecordFragmentView : IBaseView {
+interface IRecordsFragmentView : IBaseView {
 
-    fun showRecords(records: ArrayList<SleepRecordsByDate>)
+    fun showRecords(records: ArrayList<Record>)
 
     fun updateRecord(record: Record)
 
@@ -18,5 +19,11 @@ interface ISleepRecordFragmentView : IBaseView {
     fun showConfirmationAlertDialog(message: String, okButtonCallback: DialogInterface.OnClickListener)
 
     fun removeRecord(recordUuid: String)
+
+    fun setRecordsDate(date: String)
+
+    fun clearRecords()
+
+    fun showHideFabMenuCreateRecords(show: Boolean)
 
 }

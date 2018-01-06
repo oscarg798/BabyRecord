@@ -1,4 +1,4 @@
-package co.com.babyrecord.sleep_record
+package co.com.babyrecord.records
 
 import co.com.core.models.Record
 

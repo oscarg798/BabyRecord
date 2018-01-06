@@ -9,7 +9,7 @@
     <string name="accept_label">Accept</string>
     <string name="cancel_label">Cancel</string>
     <string name="delete_record_confirmation_message">Are you sure you want to delete this record?</string>
-    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="title_activity_dashboard">Dashboard</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -23,6 +23,13 @@
     <string name="birthday_label">Birthday</string>
     <string name="title_activity_add_size_record">AddSizeRecordActivity</string>
     <string name="when_the_measurement_was_made_label">When the measurement was made</string>
-    <string name="no_size_records">You do not have any size records \n please press '+' to create a new size records</string>
+    <string name="no_size_records">You do not have any size records \n please press add  to create a new size records</string>
     <string name="delete_size_record_confirmation_message">Are you sure you want to delete this size record?</string>
+    <string name="record_title">Records</string>
+    <string name="size_records_title">Size Records</string>
+    <string name="baby_profile_title">Baby Profile</string>
+    <string name="sleep_record_label">Sleep Record</string>
+    <string name="feed_record">Feed Record</string>
+    <string name="select_a_date_to_create_a_record_label">Select a date to create a record</string>
+    <string name="records_message_instruction">Select a date to create/watch a record</string>
 </resources>

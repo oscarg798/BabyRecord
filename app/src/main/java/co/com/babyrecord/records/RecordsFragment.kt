@@ -1,4 +1,4 @@
-package co.com.babyrecord.sleep_record
+package co.com.babyrecord.records
 
 import android.app.Fragment
 import android.content.DialogInterface
@@ -8,13 +8,18 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import co.com.babyrecord.DATE_PICKER_DIALOG_TAG
 import co.com.babyrecord.R
+import co.com.babyrecord.calendar.CalendarDialogDialogFragment
 import co.com.core.models.Record
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import kotlinx.android.synthetic.main.fragment_sleep_record.*
+import java.util.*
+import kotlin.collections.ArrayList
 
-class SleepRecordFragment : Fragment(), ISleepRecordFragmentView {
+class RecordsFragment : Fragment(), IRecordsFragmentView {
 
-    private val mPresenter: ISleepRecordFragmentPresenter = SleepRecordFragmentPresenter()
+    private val mPresenter: IRecordsFragmentPresenter = RecordsFragmentPresenter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_sleep_record, container, false)
@@ -30,8 +35,27 @@ class SleepRecordFragment : Fragment(), ISleepRecordFragmentView {
         activity?.let {
             mSRLDashboard?.isEnabled = false
             mRVRecords?.setHasFixedSize(false)
-            mFABCreateSpleepRecord?.setOnClickListener { v ->
+            mRVRecords?.layoutManager = LinearLayoutManager(activity)
+            mRVRecords?.adapter = RecordsRecyclerViewAdapter(ArrayList(), mPresenter)
+
+            mFABCreateSleepRecord?.setOnClickListener { v ->
                 mPresenter.creteRecord(v.id)
+                mFAMRecord.collapse()
+            }
+
+            mLLRecordsDate?.setOnClickListener {
+                val now = Calendar.getInstance()
+                val dpd = DatePickerDialog.newInstance(
+                        mPresenter,
+                        now.get(Calendar.YEAR),
+                        now.get(Calendar.MONTH),
+                        now.get(Calendar.DAY_OF_MONTH)
+                )
+                dpd.maxDate = now
+                now.add(Calendar.YEAR, -1)
+                dpd.minDate = now
+
+                dpd.show(fragmentManager, DATE_PICKER_DIALOG_TAG)
             }
         }
     }
@@ -44,11 +68,10 @@ class SleepRecordFragment : Fragment(), ISleepRecordFragmentView {
         mSRLDashboard?.isRefreshing = false
     }
 
-    override fun showRecords(records: ArrayList<SleepRecordsByDate>) {
-        mRVRecords?.let {
-            mRVRecords?.layoutManager = LinearLayoutManager(activity)
-            mRVRecords?.adapter = RecordsRecyclerViewAdapter(records, mPresenter)
-            (mRVRecords?.adapter as? RecordsRecyclerViewAdapter)?.onGroupClick(0)
+    override fun showRecords(records: ArrayList<Record>) {
+        mRVRecords?.adapter?.let {
+            (mRVRecords.adapter as RecordsRecyclerViewAdapter).addRecord(records)
+
         }
 
     }
@@ -56,14 +79,12 @@ class SleepRecordFragment : Fragment(), ISleepRecordFragmentView {
     override fun updateRecord(record: Record) {
         mRVRecords?.adapter?.let {
             (mRVRecords.adapter as RecordsRecyclerViewAdapter).updateRecord(record)
-            showRecords((mRVRecords.adapter as RecordsRecyclerViewAdapter).mRecords)
         }
     }
 
     override fun addRecord(record: Record) {
         mRVRecords?.adapter?.let {
-            (mRVRecords.adapter as RecordsRecyclerViewAdapter).addRecord(record)
-            showRecords((mRVRecords.adapter as RecordsRecyclerViewAdapter).mRecords)
+            (mRVRecords.adapter as RecordsRecyclerViewAdapter).addRecord(arrayListOf(record))
 
         }
     }
@@ -71,7 +92,6 @@ class SleepRecordFragment : Fragment(), ISleepRecordFragmentView {
     override fun removeRecord(recordUuid: String) {
         mRVRecords?.adapter?.let {
             (mRVRecords.adapter as RecordsRecyclerViewAdapter).removeRecord(recordUuid)
-            showRecords((mRVRecords.adapter as RecordsRecyclerViewAdapter).mRecords)
         }
     }
 
@@ -86,6 +106,20 @@ class SleepRecordFragment : Fragment(), ISleepRecordFragmentView {
 
     }
 
+    override fun showHideFabMenuCreateRecords(show: Boolean) {
+        mFAMRecord?.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    override fun setRecordsDate(date: String) {
+        mTVRecordsDate?.text = date
+    }
+
+    override fun clearRecords() {
+        mRVRecords?.adapter?.let {
+            (mRVRecords.adapter as RecordsRecyclerViewAdapter).clear()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         mPresenter.unBind()
@@ -93,6 +127,6 @@ class SleepRecordFragment : Fragment(), ISleepRecordFragmentView {
 
 
     companion object {
-        fun newInstance(): SleepRecordFragment = SleepRecordFragment()
+        fun newInstance(): RecordsFragment = RecordsFragment()
     }
 }

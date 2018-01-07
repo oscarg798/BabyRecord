@@ -3,8 +3,8 @@
 
     <item
         android:id="@+id/navigation_sleep_record"
-        android:icon="@drawable/ic_sleep"
-        android:title="@string/sleep_records_label" />
+        android:icon="@drawable/ic_record"
+        android:title="@string/record_title" />
 
     <item
         android:id="@+id/navigation_size"

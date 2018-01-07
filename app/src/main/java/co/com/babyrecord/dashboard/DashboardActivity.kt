@@ -18,6 +18,7 @@ class DashboardActivity : AppCompatActivity(), IDashboardActivityView {
     }
 
     override fun initComponents() {
+        setSupportActionBar(mToolbar)
         mBNVDashboard?.setOnNavigationItemSelectedListener(mPresenter)
         mBNVDashboard?.selectedItemId = R.id.navigation_sleep_record
     }

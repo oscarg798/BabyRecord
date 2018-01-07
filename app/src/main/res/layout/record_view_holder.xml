@@ -103,7 +103,7 @@
             android:text="@string/delete_label"
             android:textColor="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/mTVSetEndTimeToRecord"
+            app:layout_constraintStart_toEndOf="@+id/mTVEditEndTimeToRecord"
             app:layout_constraintTop_toBottomOf="@+id/mTVTimeFromLastRecord" />
 
 
@@ -122,6 +122,24 @@
             android:textColor="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mTVTimeFromLastRecord" />
+
+        <TextView
+            android:id="@+id/mTVEditEndTimeToRecord"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/record_action_background"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:layout_marginStart="8dp"
+            android:paddingTop="8dp"
+            android:text="@string/edit_end_time_label"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/mTVSetEndTimeToRecord"
             app:layout_constraintTop_toBottomOf="@+id/mTVTimeFromLastRecord" />
 
 

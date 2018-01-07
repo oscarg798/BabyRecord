@@ -46,6 +46,8 @@
         <service android:name=".records.widget.RecordWidgetIntentService" />
         <service android:name=".records.widget.RunAnActionOnRecordFromWidgetIntentService" />
         <service android:name=".records.widget.CreateRecordsService" />
+
+        <activity android:name=".edit_record.EditRecordActivity"></activity>
     </application>
 
 </manifest>

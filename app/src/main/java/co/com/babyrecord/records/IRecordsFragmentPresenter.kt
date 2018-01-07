@@ -12,11 +12,14 @@ interface IRecordsFragmentPresenter : IBasePresenter<IRecordsFragmentView>,
         IRecordCallbacks, DatePickerDialog.OnDateSetListener,
         SwipeRefreshLayout.OnRefreshListener {
 
-
     fun creteRecord(viewID: Int)
 
     fun updateRecord(record: Record)
 
     fun getSleepRecordByDateFromRecord(record: Record): SleepRecordsByDate
+
+    fun changeDateIVPresed(id: Int)
+
+    fun changeDate()
 
 }

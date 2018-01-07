@@ -6,18 +6,19 @@
     android:id="@+id/mSRLDashboard"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context="co.com.babyrecord.records.RecordsFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/mLLRecordsDate"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/mCLRecordsDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#cccccc"
             android:gravity="center"
+            android:orientation="vertical"
             android:padding="16dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -31,68 +32,104 @@
                 android:drawablePadding="16dp"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
-                android:textSize="16sp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:textColor="@color/mdtp_white"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mIVPrevious"
+                app:layout_constraintEnd_toStartOf="@+id/mIVNext"
+                app:layout_constraintTop_toTopOf="@+id/mIVPrevious"
+                tools:fontFamily="@font/fira_sans_bold"
                 tools:text="Jan 1 2018" />
-        </LinearLayout>
+
+            <ImageView
+                android:id="@+id/mIVNext"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_next"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageView
+                android:id="@+id/mIVPrevious"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_previous"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/mRVRecords"
+        </android.support.constraint.ConstraintLayout>
+
+
+        <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:minHeight="100dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mLLRecordsDate" />
-
-        <com.getbase.floatingactionbutton.FloatingActionsMenu
-            android:id="@+id/mFAMRecord"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:fab_expandDirection="left"
+            android:background="@drawable/bg_ll_records_date"
+            android:padding="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            fab:fab_addButtonColorNormal="@color/colorPrimary"
-            fab:fab_addButtonColorPressed="@color/colorPrimary"
-            fab:fab_addButtonPlusIconColor="#ffffff">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mCLRecordsDate">
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/mFABCreateSleepRecord"
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mRVRecords"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:minHeight="100dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.getbase.floatingactionbutton.FloatingActionsMenu
+                android:id="@+id/mFAMRecord"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:fab_icon="@drawable/ic_sleep_white"
-                app:fab_size="mini"
-                fab:fab_colorNormal="@color/colorPrimaryDark"
-                fab:fab_colorPressed="@color/colorPrimary"
-                fab:fab_title="Sleep" />
+                android:layout_margin="16dp"
+                app:fab_expandDirection="left"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                fab:fab_addButtonColorNormal="@color/colorPrimary"
+                fab:fab_addButtonColorPressed="@color/colorPrimary"
+                fab:fab_addButtonPlusIconColor="#ffffff">
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/mFABCreateFeedRecord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_icon="@drawable/ic_feed"
-                app:fab_size="mini"
-                fab:fab_colorNormal="@color/colorPrimaryDark"
-                fab:fab_colorPressed="@color/colorPrimary"
-                fab:fab_title="Feed" />
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/mFABCreateSleepRecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_icon="@drawable/ic_sleep_white"
+                    app:fab_size="mini"
+                    fab:fab_colorNormal="@color/colorPrimaryDark"
+                    fab:fab_colorPressed="@color/colorPrimary"
+                    fab:fab_title="Sleep" />
+
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/mFABCreateFeedRecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_icon="@drawable/ic_feed"
+                    app:fab_size="mini"
+                    fab:fab_colorNormal="@color/colorPrimaryDark"
+                    fab:fab_colorPressed="@color/colorPrimary"
+                    fab:fab_title="Feed" />
 
 
-            <com.getbase.floatingactionbutton.FloatingActionButton
-                android:id="@+id/mFABCreateMedicineRecord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_icon="@drawable/ic_pills"
-                app:fab_size="mini"
-                fab:fab_colorNormal="@color/colorPrimaryDark"
-                fab:fab_colorPressed="@color/colorPrimary"
-                fab:fab_title="Medicine" />
+                <com.getbase.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/mFABCreateMedicineRecord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:fab_icon="@drawable/ic_pills"
+                    app:fab_size="mini"
+                    fab:fab_colorNormal="@color/colorPrimaryDark"
+                    fab:fab_colorPressed="@color/colorPrimary"
+                    fab:fab_title="Medicine" />
 
-        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+            </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
+        </android.support.constraint.ConstraintLayout>
 
 
     </android.support.constraint.ConstraintLayout>

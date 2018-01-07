@@ -1,12 +1,9 @@
 package co.com.babyrecord.records
 
 import android.app.Fragment
-import android.appwidget.AppWidgetManager
-import android.content.ComponentName
-import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -14,10 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import co.com.babyrecord.DATE_PICKER_DIALOG_TAG
 import co.com.babyrecord.R
+import co.com.babyrecord.TIME_PICKER_DIALOG_TAG
 import co.com.babyrecord.Utils
-import co.com.babyrecord.records.widget.RecordsWidget
 import co.com.core.models.Record
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.fragment_sleep_record.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -39,7 +37,7 @@ class RecordsFragment : Fragment(), IRecordsFragmentView {
 
     private fun sendRefreshBroadcast() {
         activity?.let {
-           Utils.instance.requestWidgetUpdate(activity)
+            Utils.instance.requestWidgetUpdate(activity)
         }
 
     }
@@ -66,20 +64,40 @@ class RecordsFragment : Fragment(), IRecordsFragmentView {
                 mFAMRecord.collapse()
             }
 
-            mLLRecordsDate?.setOnClickListener {
-                val now = Calendar.getInstance()
-                val dpd = DatePickerDialog.newInstance(
-                        mPresenter,
-                        now.get(Calendar.YEAR),
-                        now.get(Calendar.MONTH),
-                        now.get(Calendar.DAY_OF_MONTH)
-                )
-                dpd.maxDate = now
-                now.add(Calendar.YEAR, -1)
-                dpd.minDate = now
-
-                dpd.show(fragmentManager, DATE_PICKER_DIALOG_TAG)
+            mTVRecordsDate?.setOnClickListener {
+                mPresenter.changeDate()
             }
+
+            mIVNext?.setOnClickListener { v -> mPresenter.changeDateIVPresed(v.id) }
+            mIVPrevious?.setOnClickListener { v -> mPresenter.changeDateIVPresed(v.id) }
+        }
+    }
+
+    override fun showDateDialog(minDate: Calendar, maxDate: Calendar, listener: DatePickerDialog.OnDateSetListener) {
+        val now = Calendar.getInstance()
+        val dpd = DatePickerDialog.newInstance(
+                listener,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH)
+        )
+        dpd.maxDate = maxDate
+        dpd.minDate = minDate
+
+        dpd.show(fragmentManager, DATE_PICKER_DIALOG_TAG)
+    }
+
+    override fun showTimeDialog(listener: TimePickerDialog.OnTimeSetListener) {
+        val now = Calendar.getInstance()
+        val tpd = TimePickerDialog.newInstance(listener, now.get(Calendar.HOUR_OF_DAY),
+                now.get(Calendar.MINUTE), true)
+        tpd.show(fragmentManager, TIME_PICKER_DIALOG_TAG)
+    }
+
+
+    override fun showMessage(message: String) {
+        mSRLDashboard?.let {
+            Snackbar.make(mSRLDashboard!!, message, Snackbar.LENGTH_LONG).show()
         }
     }
 
@@ -140,6 +158,14 @@ class RecordsFragment : Fragment(), IRecordsFragmentView {
 
     override fun setRecordsDate(date: String) {
         mTVRecordsDate?.text = date
+    }
+
+    override fun hideIVNext() {
+        mIVNext?.visibility = View.GONE
+    }
+
+    override fun showIVNext() {
+        mIVNext?.visibility = View.VISIBLE
     }
 
     override fun clearRecords() {

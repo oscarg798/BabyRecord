@@ -20,4 +20,5 @@ class RecordViewHolder(mItemView: View) : ChildViewHolder(mItemView) {
     val mTVRecordDuration = mItemView.findViewById<TextView>(R.id.mTVRecordDuration)
     val mTVTimeFromLastRecord = mItemView.findViewById<TextView>(R.id.mTVTimeFromLastRecord)
     val mIVTypeIcon = mItemView.findViewById<ImageView>(R.id.mIVTypeIcon)
+    val mTVEditEndTimeToRecord = mItemView.findViewById<TextView>(R.id.mTVEditEndTimeToRecord)
 }

@@ -37,6 +37,12 @@ class RecordsRecyclerViewAdapter(val mRecords: ArrayList<Record>,
                         "End Time: ${getTimeFromDate(mRecords[position].endTime!!)}"
                     else "End Time:"), TextView.BufferType.SPANNABLE)
 
+            holder.mTVEditEndTimeToRecord?.setOnClickListener {
+                mCallbacks.editRecordEndTime(mRecords[position])
+            }
+
+            holder.mTVEditEndTimeToRecord?.visibility = if (mRecords[position].endTime !== null) View.VISIBLE
+            else View.GONE
 
             holder.mTVDate?.
                     setText(Utils.instance.

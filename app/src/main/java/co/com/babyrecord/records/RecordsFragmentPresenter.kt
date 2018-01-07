@@ -9,6 +9,7 @@ import co.com.core.use_cases.record.DeleteRecordUseCase
 import co.com.core.use_cases.record.GetRecordsUseCase
 import co.com.core.use_cases.record.UpdateRecordUseCase
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
@@ -40,6 +41,7 @@ class RecordsFragmentPresenter : IRecordsFragmentPresenter {
             deliverRecords()
         }
         mView?.setRecordsDate(mSimpleDateFormat.format(mCurrentRecordsCalendar.time))
+        mView?.hideIVNext()
 
     }
 
@@ -138,7 +140,17 @@ class RecordsFragmentPresenter : IRecordsFragmentPresenter {
         val currentCalendar = Calendar.getInstance()
         mView?.showHideFabMenuCreateRecords(currentCalendar.get(Calendar.YEAR) == mCurrentRecordsCalendar.get(Calendar.YEAR) &&
                 currentCalendar.get(Calendar.DAY_OF_YEAR) == mCurrentRecordsCalendar.get(Calendar.DAY_OF_YEAR))
+        val currentDateCalendar = Calendar.getInstance()
+        if (currentDateCalendar.get(Calendar.YEAR) ==
+                mCurrentRecordsCalendar.get(Calendar.YEAR)
+                && currentDateCalendar.get(Calendar.DAY_OF_YEAR) ==
+                mCurrentRecordsCalendar.get(Calendar.DAY_OF_YEAR)) {
+            mView?.hideIVNext()
+        } else {
+            mView?.showIVNext()
+        }
     }
+
     override fun deleteRecord(record: Record) {
 
         mView?.showConfirmationAlertDialog(BaseApplication.instance.getString(R.string.delete_record_confirmation_message),
@@ -170,9 +182,57 @@ class RecordsFragmentPresenter : IRecordsFragmentPresenter {
         mCurrentRecordsCalendar.set(year, monthOfYear, dayOfMonth)
         mView?.setRecordsDate(mSimpleDateFormat.format(mCurrentRecordsCalendar.time))
         onRefresh()
+    }
 
+    override fun editRecordEndTime(record: Record) {
+        val minDateCalendar = Calendar.getInstance()
+        minDateCalendar.timeInMillis = record.startTime
+        val maxDateCalendar = Calendar.getInstance()
+        maxDateCalendar.timeInMillis = minDateCalendar.timeInMillis
+        maxDateCalendar.add(Calendar.WEEK_OF_YEAR, 1)
+        mView?.showDateDialog(minDateCalendar, maxDateCalendar, DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            maxDateCalendar.set(year, monthOfYear, dayOfMonth)
+            record.endTime = maxDateCalendar.timeInMillis
+            continueWithEditRecordEndTime(record)
+        })
 
     }
+
+    private fun continueWithEditRecordEndTime(record: Record) {
+        mView?.showTimeDialog(TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute, second ->
+            val endTimeCalendar = Calendar.getInstance()
+            endTimeCalendar.timeInMillis = record.endTime!!
+            endTimeCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            endTimeCalendar.set(Calendar.MINUTE, minute)
+            endTimeCalendar.set(Calendar.SECOND, second)
+            record.endTime = endTimeCalendar.timeInMillis
+            if (record.startTime <= record.endTime!!) {
+                updateRecord(record)
+            } else {
+                view.activity?.let {
+                    mView?.showMessage(view.activity.resources.getString(R.string.end_time_lower_than_start_time_message))
+                }
+            }
+
+        })
+    }
+
+    override fun changeDate() {
+        val maxDate = Calendar.getInstance()
+        val minDate = Calendar.getInstance()
+        minDate.add(Calendar.YEAR, -1)
+        mView?.showDateDialog(minDate, maxDate, this)
+    }
+
+    override fun changeDateIVPresed(id: Int) {
+        when (id) {
+            R.id.mIVNext -> mCurrentRecordsCalendar.add(Calendar.DAY_OF_YEAR, 1)
+            else -> mCurrentRecordsCalendar.add(Calendar.DAY_OF_YEAR, -1)
+        }
+        mView?.setRecordsDate(mSimpleDateFormat.format(mCurrentRecordsCalendar.time))
+        onRefresh()
+    }
+
 
     override fun getSleepRecordByDateFromRecord(record: Record): SleepRecordsByDate {
         mCalendar.timeInMillis = record.startTime

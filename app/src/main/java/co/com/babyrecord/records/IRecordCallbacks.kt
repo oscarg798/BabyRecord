@@ -10,4 +10,6 @@ interface IRecordCallbacks {
     fun finishRecord(record: Record)
 
     fun deleteRecord(record: Record)
+
+    fun editRecordEndTime(record: Record)
 }

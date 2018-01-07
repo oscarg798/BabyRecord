@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BabyRecord</string>
     <string name="delete_label">Delete</string>
-    <string name="set_end_time_label">Set end time</string>
+    <string name="set_end_time_label">Stop</string>
     <string name="name_label">Name</string>
     <string name="weight_label">Weight in pounds</string>
     <string name="height_in_centimeters_label">Height in Centimeters</string>
@@ -34,4 +34,6 @@
     <string name="records_message_instruction">Select a date to create/watch a record</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="edit_end_time_label">Edit</string>
+    <string name="end_time_lower_than_start_time_message">The end time and date  of the records should be greater than start time</string>
 </resources>

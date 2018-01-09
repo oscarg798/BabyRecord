@@ -4,6 +4,7 @@ import android.app.Fragment
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -70,6 +71,38 @@ class RecordsFragment : Fragment(), IRecordsFragmentView {
 
             mIVNext?.setOnClickListener { v -> mPresenter.changeDateIVPresed(v.id) }
             mIVPrevious?.setOnClickListener { v -> mPresenter.changeDateIVPresed(v.id) }
+            mIVSleepTab?.setOnClickListener { v ->
+                mPresenter.onTabClickListener(v.id)
+                changeTabIcons(v.id)
+            }
+            mIVFeedTab?.setOnClickListener { v ->
+                mPresenter.onTabClickListener(v.id)
+                changeTabIcons(v.id)
+            }
+            mIVMedicineTab?.setOnClickListener { v ->
+                mPresenter.onTabClickListener(v.id)
+                changeTabIcons(v.id)
+            }
+        }
+    }
+
+    private fun changeTabIcons(selectedTabID: Int) {
+        when(selectedTabID){
+            R.id.mIVSleepTab->{
+                mIVSleepTab?.background = ContextCompat.getDrawable(activity, R.drawable.bg_selected_left_tab)
+                mIVFeedTab?.background = ContextCompat.getDrawable(activity, R.drawable.bg_no_selected_tab)
+                mIVMedicineTab?.background = ContextCompat.getDrawable(activity, R.drawable.bg_no_selected_tab)
+            }
+            R.id.mIVFeedTab->{
+                mIVSleepTab?.background = ContextCompat.getDrawable(activity, R.drawable.bg_no_selected_tab)
+                mIVFeedTab?.background = ContextCompat.getDrawable(activity, R.drawable.bg_selected_tab)
+                mIVMedicineTab?.background = ContextCompat.getDrawable(activity, R.drawable.bg_no_selected_tab)
+            }
+            else->{
+                mIVSleepTab?.background = ContextCompat.getDrawable(activity, R.drawable.bg_no_selected_tab)
+                mIVFeedTab?.background = ContextCompat.getDrawable(activity, R.drawable.bg_no_selected_tab)
+                mIVMedicineTab?.background = ContextCompat.getDrawable(activity, R.drawable.bg_selected_tab)
+            }
         }
     }
 

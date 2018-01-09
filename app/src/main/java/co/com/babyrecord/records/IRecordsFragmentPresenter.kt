@@ -22,4 +22,6 @@ interface IRecordsFragmentPresenter : IBasePresenter<IRecordsFragmentView>,
 
     fun changeDate()
 
+    fun onTabClickListener(viewID: Int)
+
 }

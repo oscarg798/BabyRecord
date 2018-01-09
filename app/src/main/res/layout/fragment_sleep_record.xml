@@ -86,7 +86,7 @@
                 android:id="@+id/mIVFeedTab"
                 android:layout_width="60dp"
                 android:layout_height="0dp"
-                android:background="@drawable/bg_selected_tab"
+                android:background="@drawable/bg_no_selected_tab"
                 android:padding="8dp"
                 android:src="@drawable/ic_feed"
                 android:tint="@color/black"
@@ -95,10 +95,10 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/nIVMedicineTab"
+                android:id="@+id/mIVMedicineTab"
                 android:layout_width="60dp"
                 android:layout_height="0dp"
-                android:background="@drawable/bg_right_no_seletec_tab"
+                android:background="@drawable/bg_no_selected_tab"
                 android:padding="8dp"
                 android:src="@drawable/ic_pills"
                 android:tint="@color/black"

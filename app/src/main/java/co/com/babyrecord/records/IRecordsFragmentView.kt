@@ -38,4 +38,6 @@ interface IRecordsFragmentView : IBaseView {
 
     fun showMessage(message:String)
 
+
+
 }

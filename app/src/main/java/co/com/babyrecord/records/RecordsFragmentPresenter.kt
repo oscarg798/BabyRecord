@@ -4,10 +4,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import co.com.babyrecord.*
 import co.com.core.models.Record
-import co.com.core.use_cases.record.CreateRecordUseCase
-import co.com.core.use_cases.record.DeleteRecordUseCase
-import co.com.core.use_cases.record.GetRecordsUseCase
-import co.com.core.use_cases.record.UpdateRecordUseCase
+import co.com.core.use_cases.record.*
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -32,6 +29,8 @@ class RecordsFragmentPresenter : IRecordsFragmentPresenter {
 
     private var mCurrentRecordsCalendar: Calendar = Calendar.getInstance()
 
+    private var mSelectedTypeFromTabSelection = SLEEP_TYPE
+
     override fun bind(view: IRecordsFragmentView) {
         mView = view
         mView?.initComponents()
@@ -51,22 +50,23 @@ class RecordsFragmentPresenter : IRecordsFragmentPresenter {
 
     private fun getRecords(date: Long) {
         mView?.showProgressBar()
-        GetRecordsUseCase(Schedulers.io(),
+        GetRecordsByTypeUseCase(Schedulers.io(),
                 AndroidSchedulers.mainThread())
-                .execute(date, object : DisposableSingleObserver<List<Record>>() {
-                    override fun onSuccess(t: List<Record>) {
-                        mRecords = t
-                        deliverRecords()
-                        mView?.hideProgressBar()
-                        this.dispose()
-                    }
+                .execute(Pair(date, mSelectedTypeFromTabSelection),
+                        object : DisposableSingleObserver<List<Record>>() {
+                            override fun onSuccess(t: List<Record>) {
+                                mRecords = t
+                                deliverRecords()
+                                mView?.hideProgressBar()
+                                this.dispose()
+                            }
 
-                    override fun onError(e: Throwable) {
-                        e.printStackTrace()
-                        mView?.hideProgressBar()
-                        this.dispose()
-                    }
-                })
+                            override fun onError(e: Throwable) {
+                                e.printStackTrace()
+                                mView?.hideProgressBar()
+                                this.dispose()
+                            }
+                        })
 
     }
 
@@ -101,7 +101,9 @@ class RecordsFragmentPresenter : IRecordsFragmentPresenter {
                             }
 
                             override fun onSuccess(t: Record) {
-                                mView?.addRecord(t)
+                                if(t.type == mSelectedTypeFromTabSelection){
+                                    mView?.addRecord(t)
+                                }
                                 mView?.hideProgressBar()
                                 this.dispose()
 
@@ -120,7 +122,9 @@ class RecordsFragmentPresenter : IRecordsFragmentPresenter {
                     }
 
                     override fun onSuccess(t: Record) {
-                        mView?.updateRecord(record)
+                        if(t.type == mSelectedTypeFromTabSelection){
+                            mView?.updateRecord(record)
+                        }
                         mView?.hideProgressBar()
                         this.dispose()
                     }
@@ -224,6 +228,17 @@ class RecordsFragmentPresenter : IRecordsFragmentPresenter {
         mView?.showDateDialog(minDate, maxDate, this)
     }
 
+    override fun onTabClickListener(viewID: Int) {
+        mSelectedTypeFromTabSelection = when (viewID) {
+            R.id.mIVSleepTab -> SLEEP_TYPE
+            R.id.mIVFeedTab -> FEED_TYPE
+            else -> MEDICINE_TYPE
+        }
+
+        onRefresh()
+
+    }
+
     override fun changeDateIVPresed(id: Int) {
         when (id) {
             R.id.mIVNext -> mCurrentRecordsCalendar.add(Calendar.DAY_OF_YEAR, 1)
@@ -232,7 +247,6 @@ class RecordsFragmentPresenter : IRecordsFragmentPresenter {
         mView?.setRecordsDate(mSimpleDateFormat.format(mCurrentRecordsCalendar.time))
         onRefresh()
     }
-
 
     override fun getSleepRecordByDateFromRecord(record: Record): SleepRecordsByDate {
         mCalendar.timeInMillis = record.startTime

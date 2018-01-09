@@ -35,8 +35,8 @@
                 android:textColor="@color/mdtp_white"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/mIVPrevious"
                 app:layout_constraintEnd_toStartOf="@+id/mIVNext"
+                app:layout_constraintStart_toEndOf="@+id/mIVPrevious"
                 app:layout_constraintTop_toTopOf="@+id/mIVPrevious"
                 tools:fontFamily="@font/fira_sans_bold"
                 tools:text="Jan 1 2018" />
@@ -62,6 +62,52 @@
 
         </android.support.constraint.ConstraintLayout>
 
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/mCLTypeTabs"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_type_tabs"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mCLRecordsDate">
+
+            <ImageView
+                android:id="@+id/mIVSleepTab"
+                android:layout_width="60dp"
+                android:layout_height="0dp"
+                android:background="@drawable/bg_selected_left_tab"
+                android:padding="8dp"
+                android:src="@drawable/ic_sleep_white"
+                android:tint="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/mIVFeedTab"
+                android:layout_width="60dp"
+                android:layout_height="0dp"
+                android:background="@drawable/bg_selected_tab"
+                android:padding="8dp"
+                android:src="@drawable/ic_feed"
+                android:tint="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mIVSleepTab"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/nIVMedicineTab"
+                android:layout_width="60dp"
+                android:layout_height="0dp"
+                android:background="@drawable/bg_right_no_seletec_tab"
+                android:padding="8dp"
+                android:src="@drawable/ic_pills"
+                android:tint="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/mIVFeedTab"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+        </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="0dp"
@@ -71,7 +117,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/mCLRecordsDate">
+            app:layout_constraintTop_toBottomOf="@+id/mCLTypeTabs">
 
 
             <android.support.v7.widget.RecyclerView

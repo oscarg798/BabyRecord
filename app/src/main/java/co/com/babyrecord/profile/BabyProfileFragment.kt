@@ -2,6 +2,7 @@ package co.com.babyrecord.profile
 
 
 import android.app.Fragment
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
@@ -76,51 +77,47 @@ class BabyProfileFragment : Fragment(), IBabyProfileFragmentView {
         mTVBirthday?.text = birthDay
     }
 
-    override fun showBabyAge(birthDay: Long){
+    override fun showBabyAge(birthDay: Long) {
         mTVAge?.text = Utils.instance.getBabyAge(birthDay)
     }
 
     override fun showWeight(weight: SpannableString) {
         mTVWeigth?.text = weight
-        mTVWeigth?.visibility = View.VISIBLE
+        mCVWeigth?.visibility = View.VISIBLE
     }
 
     override fun showHeight(height: SpannableString) {
         mTVHeight?.text = height
-        mTVHeight?.visibility = View.VISIBLE
+        mCVHeight?.visibility = View.VISIBLE
     }
 
     override fun hideWeight() {
-        mTVWeigth?.visibility = View.GONE
+        mCVWeigth?.visibility = View.GONE
     }
 
     override fun hideHeight() {
-        mTVHeight?.visibility = View.GONE
+        mCVHeight?.visibility = View.GONE
     }
 
     override fun showNoBabyMessage() {
         mLLNoBabyMessage?.visibility = View.VISIBLE
         mFabCreateBaby?.setImageDrawable(resources.getDrawable(R.drawable.ic_add))
-        mTVName?.visibility = View.GONE
-        mTVBirthday?.visibility = View.GONE
-        mTVAge?.visibility = View.GONE
-        mTVHeight?.visibility = View.GONE
-        mTVWeigth?.visibility = View.GONE
+        mCLBabyInfo?.visibility = View.GONE
     }
 
     override fun hideNoBabyMessage() {
         mLLNoBabyMessage?.visibility = View.GONE
         mFabCreateBaby?.setImageDrawable(resources.getDrawable(R.drawable.ic_edit))
-        mTVName?.visibility = View.VISIBLE
-        mTVBirthday?.visibility = View.VISIBLE
-        mTVAge?.visibility = View.VISIBLE
-        mTVHeight?.visibility = View.VISIBLE
-        mTVWeigth?.visibility = View.VISIBLE
+        mCLBabyInfo?.visibility = View.VISIBLE
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         mPresenter.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun getViewContext(): Context? {
+        return activity
     }
 
     companion object {

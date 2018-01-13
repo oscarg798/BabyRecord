@@ -1,13 +1,11 @@
 package co.com.babyrecord.records.widget
 
-import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
-import android.os.Looper
 import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.RemoteViews
@@ -16,7 +14,6 @@ import co.com.babyrecord.*
 import co.com.babyrecord.dashboard.DashboardActivity
 import co.com.core.models.Record
 import co.com.core.use_cases.record.GetRecordsUseCase
-import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
 import java.text.SimpleDateFormat
@@ -110,10 +107,6 @@ class RecordWidgetViewsFactory(val mContext: Context,
             else -> R.drawable.ic_pills
         })!!, 30, 30))
 
-
-
-        remoteView.setOnClickFillInIntent(R.id.mTVDeleteRecord,
-                getFillIntentForView(mRecords[position], R.id.mTVDeleteRecord))
         remoteView.setOnClickFillInIntent(R.id.mTVSetEndTimeToRecord,
                 getFillIntentForView(mRecords[position], R.id.mTVSetEndTimeToRecord))
 

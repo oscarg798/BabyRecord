@@ -98,38 +98,17 @@
             android:orientation="horizontal"
             android:weightSum="2">
 
-            <TextView
-                android:id="@+id/mTVDeleteRecord"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:background="@drawable/record_action_background"
-                android:fontFamily="@font/roboto_medium"
-                android:paddingBottom="8dp"
-                android:paddingEnd="16dp"
-                android:paddingStart="16dp"
-                android:paddingTop="8dp"
-                android:layout_marginEnd="4dp"
-                android:text="@string/delete_label"
-                android:textColor="@color/colorAccent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/mTVSetEndTimeToRecord"
-                app:layout_constraintTop_toBottomOf="@+id/mTVTimeFromLastRecord" />
-
 
             <TextView
                 android:id="@+id/mTVSetEndTimeToRecord"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
                 android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/record_action_background"
                 android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
                 android:paddingBottom="8dp"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"

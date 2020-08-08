@@ -3,6 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BabyRecord.iml" filepath="$PROJECT_DIR$/BabyRecord.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/BabyRecord-app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/BabyRecord-app.iml" group="BabyRecord/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/BabyRecord-core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/BabyRecord-core.iml" group="BabyRecord/core" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Developer-BabyRecord.iml" filepath="$PROJECT_DIR$/.idea/modules/Developer-BabyRecord.iml" group="BabyRecord" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/data.iml" filepath="$PROJECT_DIR$/data/data.iml" />

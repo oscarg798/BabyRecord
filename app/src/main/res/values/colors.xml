@@ -6,4 +6,6 @@
     <color name="black">#000000</color>
     <color name="calendar_highlighted_day_bg">#3F51B5</color>
     <color name="gray">#cccccc</color>
+
+    <color name="white">#Fff</color>
 </resources>

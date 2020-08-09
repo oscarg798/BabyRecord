@@ -1,0 +1,12 @@
+apply from: "$rootProject.projectDir/shared.gradle"
+
+dependencies {
+    implementation cardView
+
+    implementation fragmentNavigation
+    implementation navigationUi
+
+    implementation hiltLib
+
+    implementation project(":core")
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="records_title">Records</string>
+    <string name="start_time_label">Start time:</string>
+    <string name="end_time_label">End Time:</string>
+</resources>

@@ -7,27 +7,22 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @InstallIn(ApplicationComponent::class)
 @Module
 object PersistenceModule {
 
     @Provides
-    fun provideDatabase(context: Context): BabyRecordDatabase {
-        return Room.databaseBuilder(
-            context,
-            BabyRecordDatabase::class.java, DATABASE_NAME
-        ).build()
-    }
+    fun provideRecordDAO(@ApplicationContext context: Context) =
+        BabyRecordDatabase.getInstance(context).recordDAO()
 
     @Provides
-    fun provideRecordDAO(database: BabyRecordDatabase) = database.recordDAO()
+    fun provideBabyDAO(@ApplicationContext context: Context) =
+        BabyRecordDatabase.getInstance(context).babyDAO()
 
     @Provides
-    fun provideBabyDAO(database: BabyRecordDatabase) = database.babyDAO()
-
-    @Provides
-    fun provideSizeRecordDAO(database: BabyRecordDatabase) = database.sizeRecordDAO()
+    fun provideSizeRecordDAO(@ApplicationContext context: Context) =
+        BabyRecordDatabase.getInstance(context).sizeRecordDAO()
 }
 
-private const val DATABASE_NAME = "babyrecord.db"

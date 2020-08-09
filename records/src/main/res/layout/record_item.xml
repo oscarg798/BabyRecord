@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/spacing_extra_small"
+    app:cardUseCompatPadding="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_medium">
+
+        <ImageView
+            android:id="@+id/ivRecordIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_resource_type_icon"
+            android:padding="@dimen/spacing_small"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_android_black_24dp"
+            android:tint="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvRecordStartTimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:labelFor="@+id/tvRecordStartTime"
+            android:maxLines="1"
+            android:text="@string/start_time_label"
+            app:layout_constraintStart_toEndOf="@+id/ivRecordIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvRecordStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            app:layout_constraintHorizontal_bias="0"
+            android:maxLines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvRecordStartTimeLabel"
+            app:layout_constraintTop_toTopOf="@+id/tvRecordStartTimeLabel"
+            tools:text="1:00 pm" />
+
+        <TextView
+            android:id="@+id/tvRecordEndTimeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:labelFor="@+id/tvRecordEndTime"
+            android:maxLines="1"
+            android:text="@string/end_time_label"
+            app:layout_constraintStart_toEndOf="@+id/ivRecordIcon"
+            app:layout_constraintTop_toBottomOf="@+id/tvRecordStartTimeLabel" />
+
+        <TextView
+            android:id="@+id/tvRecordEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_small"
+            android:maxLines="1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintStart_toEndOf="@+id/tvRecordEndTimeLabel"
+            app:layout_constraintTop_toTopOf="@+id/tvRecordEndTimeLabel"
+            tools:text="3:00 am" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

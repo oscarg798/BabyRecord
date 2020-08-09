@@ -1,6 +1,8 @@
 package com.oscarg798.babyrecord.core.persistence
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.oscarg798.babyrecord.core.persistence.dao.BabyDAO
 import com.oscarg798.babyrecord.core.persistence.dao.RecordDAO
@@ -21,6 +23,28 @@ abstract class BabyRecordDatabase : RoomDatabase() {
     abstract fun babyDAO(): BabyDAO
 
     abstract fun sizeRecordDAO(): SizeRecordDAO
+
+    companion object {
+        @Volatile
+        private var INSTANCE: BabyRecordDatabase? = null
+
+        @Synchronized
+        fun getInstance(context: Context): BabyRecordDatabase {
+            var instance = INSTANCE
+
+            if (instance == null) {
+                instance = Room.databaseBuilder(
+                    context,
+                    BabyRecordDatabase::class.java, DATABASE_NAME
+                ).build()
+                INSTANCE = instance
+            }
+
+            return instance
+        }
+    }
 }
+
+private const val DATABASE_NAME = "babyrecord.db"
 
 

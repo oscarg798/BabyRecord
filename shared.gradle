@@ -1,0 +1,87 @@
+apply from: "$rootProject.projectDir/scripts/properties.gradle"
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion appCompileSdkVersion
+
+    defaultConfig {
+        minSdkVersion appMinSdkVersion
+        targetSdkVersion appTargetSdkVersion
+        versionCode appVersionCode
+        versionName appVersionName
+    }
+
+    buildFeatures {
+        viewBinding {
+            enabled true
+        }
+    }
+
+    kotlinOptions {
+        freeCompilerArgs = ["-Xallow-result-return-type", "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi", "-Xopt-in=kotlinx.coroutines.FlowPreview", "-Xopt-in=kotlin.contracts.ExperimentalContracts"]
+        jvmTarget = "1.8"
+    }
+}
+
+dependencies {
+    implementation(kotlinJDK)
+
+    implementation(appCompat)
+    implementation(recyclerView)
+    implementation(design)
+    implementation(appCompatV4)
+    implementation(constraintLayout)
+    implementation(multidex)
+    implementation(activityx)
+
+    implementation(airbnb)
+    kapt(airbnbProcessor)
+
+    //Dagger
+    implementation(dagger)
+    implementation(daggerAndroidSupport)
+    kapt(daggerCompiler)
+    kapt(daggerAndroidProcessor)
+
+    //Coroutines
+    implementation(kotlinCoroutines)
+    implementation(kotlinCoroutinesAndroid)
+
+    implementation(retrofit)
+    implementation(gsonConverter)
+    implementation(okhttp3)
+    implementation(okhttpLoggingInterceptor)
+
+    implementation(viewModelScope)
+    implementation(lifecycleExtensions)
+    implementation(lifecycle)
+
+    implementation(skeleton)
+    implementation(shimmerLayout)
+
+    implementation(lomeno)
+
+    implementation(flagly)
+
+
+    //Test
+    testImplementation(mockk)
+    testImplementation(junit)
+    testImplementation(kluent)
+    testImplementation(kotlinCoroutinesTest)
+
+    //Aceptance Testing
+    androidTestImplementation(androidAnnotations)
+    androidTestImplementation(mockWebServer)
+    androidTestImplementation(testRunner)
+    androidTestImplementation(testRules)
+    androidTestImplementation(espressoCore)
+    androidTestImplementation(espressoContrib)
+    androidTestImplementation(espressoIntents)
+    androidTestImplementation(uiAutomator)
+    androidTestImplementation(mockkAndroid)
+}

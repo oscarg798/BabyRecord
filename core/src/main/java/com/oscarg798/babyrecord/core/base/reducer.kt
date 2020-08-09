@@ -5,5 +5,5 @@ import com.oscarg798.babyrecord.core.base.ViewState as MVIViewState
 
 interface Reducer<in Result : MVIResult, ViewState : MVIViewState> {
 
-    fun reduce(state: ViewState, from: Result): ViewState
+    suspend fun reduce(state: ViewState, from: Result): ViewState
 }

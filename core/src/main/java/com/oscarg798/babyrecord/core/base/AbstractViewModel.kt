@@ -23,8 +23,7 @@ abstract class AbstractViewModel<Wish : MVIWish, Result : MVIResult, ViewState :
     val state: Flow<ViewState> = wishProcessor.asFlow()
         .flatMapMerge {
             getResult(it)
-        }
-        .scan(initialState) { state, result ->
+        }.scan(initialState) { state, result ->
             reducer.reduce(state, result)
         }
 
@@ -33,9 +32,6 @@ abstract class AbstractViewModel<Wish : MVIWish, Result : MVIResult, ViewState :
 
     protected abstract suspend fun getResult(wish: Wish): Flow<Result>
 
-    open fun onScreenShown() {
-        // DO_NOTHING
-    }
 
     fun onWish(wish: Wish) {
         wishProcessor.offer(wish)

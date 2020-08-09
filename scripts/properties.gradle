@@ -7,7 +7,7 @@ def getReleaseVersionCode() {
 
 ext {
     appVersionName = "${major}.${minor}.${patch}(${buildNumber})"
-    appMinSdkVersion = 28
+    appMinSdkVersion = 23
     appTargetSdkVersion = 30
     appCompileSdkVersion = 30
     appVersionCode = getReleaseVersionCode()

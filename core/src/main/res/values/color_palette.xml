@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="iconsColor" format="color"/>
+
+    <color name="white">#ffffff</color>
+
+    <color name="daisy_bush_100">#B388FF</color>
+    <color name="daisy_bush_200">#7C4DFF</color>
+    <color name="daisy_bush_400">#651FFF</color>
+    <color name="daisy_bush_900">#311b92</color>
+    <color name="daisy_bush_800">#4527a0</color>
+    <color name="daisy_bush_700">#512da8</color>
+</resources>

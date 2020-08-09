@@ -1,13 +1,12 @@
 package com.oscarg798.babyrecord.records.model
 
+import androidx.annotation.DrawableRes
 import com.oscarg798.babyrecord.core.models.BabyRecordType
-import com.oscarg798.babyrecord.core.models.Record
-import java.text.SimpleDateFormat
-import java.util.*
 
 data class ViewRecord(
     val id: String,
     val type: BabyRecordType,
+    @DrawableRes val iconId: Int,
     val startTime: String,
     val endTime: String? = null
 )

@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/core/BabyRecord-core.iml" filepath="$PROJECT_DIR$/.idea/modules/core/BabyRecord-core.iml" group="BabyRecord/core" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Developer-BabyRecord.iml" filepath="$PROJECT_DIR$/.idea/modules/Developer-BabyRecord.iml" group="BabyRecord" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/babylist/babylist.iml" filepath="$PROJECT_DIR$/.idea/modules/babylist/babylist.iml" group="BabyRecord/babylist" />
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" />
       <module fileurl="file://$PROJECT_DIR$/data/data.iml" filepath="$PROJECT_DIR$/data/data.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/records/records.iml" filepath="$PROJECT_DIR$/.idea/modules/records/records.iml" group="BabyRecord/records" />

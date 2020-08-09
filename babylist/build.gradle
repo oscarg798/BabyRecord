@@ -1,0 +1,15 @@
+apply from: "$rootProject.projectDir/shared.gradle"
+apply plugin: 'kotlin-android'
+
+dependencies {
+    implementation cardView
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+    implementation fragmentNavigation
+    implementation navigationUi
+
+    implementation hiltLib
+
+    implementation project(":core")
+}

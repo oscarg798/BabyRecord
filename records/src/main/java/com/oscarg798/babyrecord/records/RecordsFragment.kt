@@ -2,6 +2,7 @@ package com.oscarg798.babyrecord.records
 
 import android.content.Context
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +43,9 @@ class RecordsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentRecordsBinding.inflate(inflater, container, false)
+        val newContext = ContextThemeWrapper(requireContext(), R.style.AppTheme)
+        val layoutInflater = inflater.cloneInContext(newContext)
+        binding = FragmentRecordsBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -56,14 +59,13 @@ class RecordsFragment : Fragment() {
         }
 
         recordsViewModel.state.onEach { state ->
+            hideLoading()
             when {
                 state.error != null -> {
-                    hideLoading()
                     showError()
                 }
                 state.isLoading -> showLoading()
                 state.records != null -> {
-                    hideLoading()
                     (binding.rvRecords.adapter as RecordAdapter).submitList(state.records.toList())
                 }
             }

@@ -1,6 +1,8 @@
 package com.oscarg798.babyrecord.records.mvi
 
 import com.oscarg798.babyrecord.core.base.Reducer
+import com.oscarg798.babyrecord.core.models.BabyRecordType
+import com.oscarg798.babyrecord.records.R
 import com.oscarg798.babyrecord.records.model.ViewRecord
 import com.oscarg798.babyrecord.records.usecases.GetRecordStartAndEndTimeFormatted
 import com.oscarg798.babyrecord.records.usecases.getEndTime
@@ -27,6 +29,13 @@ class RecordsReducer @Inject constructor(private val getRecordStartAndEndTimeFor
             ViewRecord(
                 record.id,
                 record.type,
+                when (record.type) {
+                    is BabyRecordType.Sleep -> R.drawable.ic_sleep_record
+                    is BabyRecordType.Feed -> R.drawable.ic_feeding
+                    is BabyRecordType.Diaper -> R.drawable.ic_diaper
+                    is BabyRecordType.Medicine -> R.drawable.ic_medicine
+                    is BabyRecordType.Size -> R.drawable.ic_measure
+                },
                 recordStartAndEndTimeFormatted.getStartTime(),
                 recordStartAndEndTimeFormatted.getEndTime()
             )

@@ -1,3 +1,4 @@
+include ':babylist'
 include ':records'
 include ':app', ':core'
 rootProject.name = "BabyRecord"

@@ -6,11 +6,16 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ApplicationComponent
 import kotlinx.coroutines.Dispatchers
+import java.util.Calendar
 
 @InstallIn(ApplicationComponent::class)
 @Module
 object CoreModule {
 
     @Provides
-    fun provideCoroutineContextProvider() = CoroutineContextProvider(Dispatchers.Main, Dispatchers.IO)
+    fun provideCoroutineContextProvider() =
+        CoroutineContextProvider(Dispatchers.Main, Dispatchers.IO)
+
+    @Provides
+    fun provideCalendar() = Calendar.getInstance()
 }

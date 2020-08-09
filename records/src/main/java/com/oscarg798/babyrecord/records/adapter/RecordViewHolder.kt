@@ -9,6 +9,7 @@ class RecordViewHolder(private val binding: RecordItemBinding) :
 
     fun bind(viewRecord: ViewRecord) {
         with(binding) {
+            ivRecordIcon.setImageDrawable(itemView.context.getDrawable(viewRecord.iconId))
             tvRecordStartTime.text = viewRecord.startTime
             tvRecordEndTime.text = viewRecord.endTime ?: "--"
         }
